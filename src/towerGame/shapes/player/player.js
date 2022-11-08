@@ -2,8 +2,6 @@ import * as THREE from "three";
 import {addMeshToScene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
 
-let g_xzPlaneSideLength=100;
-
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
