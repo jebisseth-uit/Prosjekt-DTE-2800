@@ -50,6 +50,12 @@ export function addLights() {
 	ambientFolder.add(ambientLight1, 'intensity').min(0).max(1).step(0.01).name("Intensity");
 	ambientFolder.addColor(ambientLight1, 'color').name("Color");
 
+	let pointLight1 = new THREE.PointLight(0xffffff, 0.3)
+	pointLight1.position.y = 80;
+	pointLight1.position.x = 50;
+	pointLight1.position.z = -30;
+	g_scene.add(pointLight1);
+
 	//** RETNINGSORIENTERT LYS (som gir skygge):
 	let directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 	directionalLight.visible = true;
