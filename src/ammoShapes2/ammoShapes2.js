@@ -15,12 +15,10 @@ import {
 	updatePhysics
 } from "./myAmmoHelper.js";
 
-import {
-	createAmmoCube,
-	createAmmoSpheres,
-	createAmmoXZPlane,
-	createMovable,
-} from "./threeAmmoShapes.js";
+import {createXZPlane} from "./shapes/primitives/xzplane.js";
+import {createSpheres} from "./shapes/primitives/sphere.js";
+import {createCube} from "./shapes/primitives/cube.js";
+import {createPlayer} from "./shapes/player/player.js";
 
 
 //Globale variabler:
@@ -76,10 +74,10 @@ function handleKeyDown(event) {
 }
 
 function addAmmoSceneObjects() {
-	createAmmoXZPlane(XZPLANE_SIDELENGTH);
-	createAmmoSpheres(20);
-	createAmmoCube();
-	createMovable();
+	createXZPlane(XZPLANE_SIDELENGTH);
+	createSpheres(20);
+	createCube();
+	createPlayer();
 }
 
 function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
