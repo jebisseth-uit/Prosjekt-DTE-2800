@@ -7,7 +7,7 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export async function createWall_no_windows(name, width = 1, height = 1, depth = 1, position={x:0, y:0, z:0}, rotation={x:0, z:0, y:0}) {
+export async function createWall_no_windows(name, width = 1, height = 1, depth = 1, position={x:0, y:0, z:0}, rotation={x:0, z:0, y:0}, opacity = 1) {
 	const mass = 0; //Merk!
 	let color=0x00A6E5;
 
@@ -31,6 +31,7 @@ export async function createWall_no_windows(name, width = 1, height = 1, depth =
 	let mesh = new THREE.Mesh(
 		new THREE.BoxGeometry(width,height,depth, 1, 1),
 		materialBasicAlpahamap);
+	materialBasicAlpahamap.opacity = opacity;
 	mesh.name = 'name';
 	mesh.rotation.set(rotation.x, rotation.y, rotation.z);
 	mesh.castShadow = true;
