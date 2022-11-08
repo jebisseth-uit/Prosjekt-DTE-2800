@@ -20,6 +20,8 @@ import {createSpheres} from "./shapes/primitives/sphere.js";
 import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
 
+//levels
+import {generateDemoLevel} from "./levels/demo/level_demo.js";
 
 //Globale variabler:
 let g_clock;
@@ -51,6 +53,10 @@ export async function main() {
 
 	// three/ammo-objekter:
 	addAmmoSceneObjects();
+
+	// draw level
+	generateDemoLevel(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
+
 
 	// Klokke for animasjon
 	g_clock = new THREE.Clock();
