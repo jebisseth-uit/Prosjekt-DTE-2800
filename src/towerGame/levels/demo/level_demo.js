@@ -1,12 +1,22 @@
 
 import * as THREE from "three";
 
-import {createWall_no_windows} from "../../shapes/structures/walls/wall_no_windows.js";
+import {g_lilGui, g_scene} from "../../myThreeHelper.js";
+import {level_demo_build} from "./level_demo_build.js";
 
-export async function generateDemoLevel(scene_width, scene_length){
+export async function level_demo(scene_width, scene_length){
 
-	await createWall_no_windows("wall_left", scene_width, scene_length, scene_width*0.01, {x:-scene_width/2, y:scene_width/2, z:0}, {x:0, z:0, y:Math.PI/2})
-	await createWall_no_windows("wall_back", scene_width, scene_length, scene_width*0.01, {x:0, y:scene_width/2, z:-scene_width/2}, {x:0, z:0, y:0})
-	await createWall_no_windows("wall_right", scene_width, scene_length, scene_width*0.01, {x:scene_width/2, y:scene_width/2, z:0}, {x:0, z:0, y:Math.PI/2})
+	level_demo_build(scene_width, scene_length)
+
+	let pointLight1 = new THREE.PointLight(0xff0000, 0.8)
+	pointLight1.position.y = 40;
+	pointLight1.position.x = -50;
+	pointLight1.position.z = -30;
+	g_scene.add(pointLight1);
+
+	const pointLightFolder = g_lilGui.addFolder( 'Pointlight' );
+	pointLightFolder.add(pointLight1, 'visible').name("On/Off");
+	pointLightFolder.add(pointLight1, 'intensity').min(0).max(1).step(0.01).name("Intensity");
+	pointLightFolder.addColor(pointLight1, 'color').name("Color");
 
 }
