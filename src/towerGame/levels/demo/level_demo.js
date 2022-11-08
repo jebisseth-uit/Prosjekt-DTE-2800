@@ -4,10 +4,14 @@ import * as THREE from "three";
 import {g_lilGui, g_scene} from "../../myThreeHelper.js";
 import {level_demo_build} from "./level_demo_build.js";
 
+const level_height = 50;
+
 export async function level_demo(scene_width, scene_length){
 
-	level_demo_build(scene_width, scene_length)
+	// Build level
+	level_demo_build(scene_width, scene_length, level_height)
 
+	// Set level specific lights
 	let pointLight1 = new THREE.PointLight(0xffffff, 0.5)
 	pointLight1.position.y = 40;
 	pointLight1.position.x = -50;
