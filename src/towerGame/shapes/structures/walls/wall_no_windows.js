@@ -20,12 +20,9 @@ export async function createWall_no_windows(name, width = 1, height = 1, depth =
 	const materialBasicAlpahamap = new THREE.MeshBasicMaterial({ map:bricksTexture, color: 0xffffff, wireframe:false, side: THREE.DoubleSide });
 	materialBasicAlpahamap.alphaMap = alphamapTexture;
 	materialBasicAlpahamap.transparent = true;
-
-	/****
-	 * MeshNormalMaterial
-	 * Fargen bestemmes av geometriens normalvektorer.
-	 */
-	const materialNormal = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide, wireframe:false, flatShading: false });
+	bricksTexture.wrapS = THREE.RepeatWrapping;
+	bricksTexture.wrapT = THREE.RepeatWrapping;
+	bricksTexture.repeat.set(5,5)
 
 	//THREE
 	let mesh = new THREE.Mesh(
