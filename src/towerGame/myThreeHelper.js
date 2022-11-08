@@ -4,7 +4,7 @@ import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 
-let g_scene, g_renderer, g_camera, g_controls, g_lilGui;
+export let g_scene, g_renderer, g_camera, g_controls, g_lilGui;
 
 export function createThreeScene() {
 	const canvas = document.createElement('canvas');
