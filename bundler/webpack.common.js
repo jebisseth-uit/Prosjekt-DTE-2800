@@ -8,7 +8,7 @@ const path = require('path')
 // undermappe med samme navn som hthml-fila.
 // PASS PÅ REKKEFØLGEN (1-1 mellom pages og pagesDir):
 const pages = [
-    "ammeShapes2"
+    "towerGame"
 ];
 const pagesDir = [
     ""
