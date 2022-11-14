@@ -52,7 +52,7 @@ export function createThreeScene() {
 
 // load a sound and set it as the Audio object's buffer
 	const audioLoader = new THREE.AudioLoader();
-	audioLoader.load( "./Sounds/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
+	audioLoader.load( "static/assets/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
 		sound.setBuffer( buffer );
 		sound.setLoop( true );
 		sound.setVolume( 0.5 );
