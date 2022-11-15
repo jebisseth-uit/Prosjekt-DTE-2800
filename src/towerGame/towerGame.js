@@ -111,7 +111,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	handleKeys(deltaTime, g_currentlyPressedKeys);
 
 	//Oppdaterer HUD
-	let sprite = g_scene.getObjectByName("sprite")
+	let sprite = g_scene.getObjectByName("hud")
 	sprite.position.copy(g_camera.position)
 	sprite.rotation.copy(g_camera.rotation)
 	sprite.updateMatrix();
