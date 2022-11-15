@@ -1,7 +1,6 @@
 import '../../style.css';
 import * as THREE from "three";
 import Stats from 'stats.js';
-
 import {
 	createThreeScene,
 	handleKeys,
@@ -16,18 +15,20 @@ import {
 } from "./myAmmoHelper.js";
 
 import {createXZPlane} from "./shapes/primitives/xzplane.js";
-import {createSpheres} from "./shapes/primitives/sphere.js";
 import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
 
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
+import MyEnemy from './MyEnemy.js';
 
 //Globale variabler:
 let g_clock;
 const g_currentlyPressedKeys = []
 const XZPLANE_SIDELENGTH = 100;
 const stats = new Stats();
+
+const myEnemy = new MyEnemy();
 
 //STARTER!
 //Ammojs Initialization
@@ -66,7 +67,7 @@ export async function main() {
 	//Input - standard Javascript / WebGL:
 	document.addEventListener('keyup', handleKeyUp, false);
 	document.addEventListener('keydown', handleKeyDown, false);
-
+	myEnemy.loadEnemy();
 	// Start animasjonsløkka:
 	animate(0);
 }
@@ -81,7 +82,7 @@ function handleKeyDown(event) {
 
 function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
-	createSpheres(20);
+	// createSpheres(20);
 	createCube();
 	createPlayer();
 }
