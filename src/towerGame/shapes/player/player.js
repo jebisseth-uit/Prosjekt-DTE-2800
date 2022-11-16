@@ -71,7 +71,7 @@ export function createBall(){
 	player.receiveShadow = true;
 	player.name = "player";
 	player.playerSpeed = 10;
-	player.playerJumpForce = 120;
+	player.playerJumpForce = 20;
 
 	//Ammojs Section
 	let transform = new Ammo.btTransform();

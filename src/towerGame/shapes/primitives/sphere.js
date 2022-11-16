@@ -26,7 +26,7 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 	//AMMO
 	let shape = new Ammo.btSphereShape(mesh.geometry.parameters.radius);
 	shape.setMargin( 0.05 );
-	let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0, position, mass);
+	let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.5, position, mass);
 
 	mesh.userData.physicsBody = rigidBody;
 

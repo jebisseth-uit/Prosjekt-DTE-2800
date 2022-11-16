@@ -111,7 +111,8 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	let moveY =  0;
 
 	if (g_currentlyPressedKeys['Space']) {	//Space
-		applyImpulse(player.userData.physicsBody, playerJumpForce, {x:moveX, y:1, z:moveZ});
+		applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
+
 	}
 
 	if( moveX == 0 && moveY == 0 && moveZ == 0) return;
