@@ -19,6 +19,7 @@ import {createXZPlane} from "./shapes/primitives/xzplane.js";
 import {createSpheres} from "./shapes/primitives/sphere.js";
 import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
+import {createBall} from "./shapes/player/player.js";
 
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
@@ -32,6 +33,11 @@ let g_clock;
 const g_currentlyPressedKeys = []
 const XZPLANE_SIDELENGTH = 100;
 const stats = new Stats();
+
+export let moveDirection;
+moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
+
+
 
 //STARTER!
 //Ammojs Initialization
@@ -80,17 +86,42 @@ export async function main() {
 
 function handleKeyUp(event) {
 	g_currentlyPressedKeys[event.code] = false;
+
+	let keyCode = event.keyCode;
+
+	switch(keyCode){
+		case 87: //FORWARD
+			moveDirection.forward = 0
+			break;
+
+		case 83: //BACK
+			moveDirection.back = 0
+			break;
+
+		case 65: //LEFT
+			moveDirection.left = 0
+			break;
+
+		case 68: //RIGHT
+			moveDirection.right = 0
+			break;
+
+		case 32: //Space: JUMP
+			break;
+	}
 }
 
 function handleKeyDown(event) {
 	g_currentlyPressedKeys[event.code] = true;
+
 }
 
 function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
 	createSpheres(20);
 	createCube();
-	createPlayer();
+	//createPlayer();
+	createBall();
 }
 
 function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
@@ -118,7 +149,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	sprite.translateY(-6)
 	sprite.translateX(-10)
 	sprite.translateZ(-10)
-	//sprite.translateX(-10);
+	sprite.translateX(-10);
 
 	//Tegner scenen med gitt kamera:
 	renderScene();
