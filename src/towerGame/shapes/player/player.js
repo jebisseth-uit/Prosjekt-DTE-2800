@@ -84,15 +84,15 @@ export function createBall(){
 	colShape.setMargin( 0.05 );
 
 	let localInertia = new Ammo.btVector3( 0, 0, 0 );
-	colShape.calculateLocalInertia( mass, localInertia );
+	//colShape.calculateLocalInertia( mass, localInertia );
+	colShape.calculateLocalInertia( mass, 100 );
 
 	let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
 	let body = new Ammo.btRigidBody( rbInfo );
 
 	body.setFriction(4);
 	body.setRollingFriction(10);
-
-	//body.setActivationState( STATE.DISABLE_DEACTIVATION )
+	body.setActivationState(4)
 
 
 	addMeshToScene(player)
