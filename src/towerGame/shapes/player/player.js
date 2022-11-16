@@ -15,7 +15,8 @@ export function createPlayer(color=0x00A6E5, position={x:-10, y:0, z:-30}) {
 	let mesh = new THREE.Mesh(
 		new THREE.BoxGeometry(sideLength,sideLength,sideLength, 1, 1),
 		new THREE.MeshStandardMaterial({color: color}));
-	mesh.name = 'movable';
+	mesh.name = 'player';
+	mesh.playerSpeed = 5;
 	position.y = position.y + mesh.scale.y*sideLength/2;
 	mesh.position.set(position.x, position.y, position.z);
 	mesh.castShadow = true;

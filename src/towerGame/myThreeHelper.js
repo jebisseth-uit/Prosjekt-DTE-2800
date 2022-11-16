@@ -91,18 +91,19 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 		applyImpulse(cube.userData.physicsBody, 50, {x:0, y:1, z:0});
 	}
 
-	const movable = g_scene.getObjectByName("movable");
+	const player = g_scene.getObjectByName("player");
+	const playerSpeed = player.playerSpeed;
 	if (g_currentlyPressedKeys['KeyA']) {	//A
-		moveRigidBody(movable,{x: -0.2, y: 0, z: 0});
+		moveRigidBody(player,{x: -0.2*playerSpeed, y: 0, z: 0});
 	}
 	if (g_currentlyPressedKeys['KeyD']) {	//D
-		moveRigidBody(movable,{x: 0.2, y: 0, z: 0});
+		moveRigidBody(player,{x: 0.2*playerSpeed, y: 0, z: 0});
 	}
 	if (g_currentlyPressedKeys['KeyW']) {	//W
-		moveRigidBody(movable,{x: 0, y: 0, z: -0.2});
+		moveRigidBody(player,{x: 0, y: 0, z: -0.2*playerSpeed});
 	}
 	if (g_currentlyPressedKeys['KeyS']) {	//S
-		moveRigidBody(movable,{x: 0, y: 0, z: 0.2});
+		moveRigidBody(player,{x: 0, y: 0, z: 0.2*playerSpeed});
 	}
 }
 
