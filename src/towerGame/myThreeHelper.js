@@ -112,7 +112,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	let moveZ =  moveDirection.back - moveDirection.forward;
 	let moveY =  0;
 
-	if (g_currentlyPressedKeys['Space']) {	//Space
+	if (g_currentlyPressedKeys['KeyM']) {	//Space
 		if (lastKey.key !== "jump"){
 			applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
 			lastKey.key = "jump";

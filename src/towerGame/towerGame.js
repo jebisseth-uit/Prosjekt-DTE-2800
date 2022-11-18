@@ -116,19 +116,8 @@ function handleKeyUp(event) {
 }
 
 function handleKeyDown(event) {
-
 	g_currentlyPressedKeys[event.code] = true
-	let keyCode = event.keyCode;
-
-	switch(keyCode){
-		case 32: //Space: JUMP
-			//lastKey = "jump"
-			break;
-		default:
-			//lastKey = "nojump"
-	}
-
-	//lastKey = event.code;
+	console.log(event.code)
 
 }
 
