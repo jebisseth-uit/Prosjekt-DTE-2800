@@ -77,11 +77,10 @@ export function createBall(){
 	player.receiveShadow = true;
 	player.name = "player";
 	player.playerSpeed = 20;
-	player.playerJumpForce = 150;
+	player.playerJumpForce = 60;
 
 	player.collisionResponse = (mesh1) => {
-		console.log("collision")
-		mesh1.material.color.setHex(Math.random() * 0xffffff);
+		lastKey.key = "nojump";
 	};
 
 	//Ammojs Section
@@ -105,14 +104,13 @@ export function createBall(){
 	body.setRollingFriction(10);
 	body.setActivationState(4)
 
+	player.userData.physicsBody = body;
 
 	addMeshToScene(player)
 	g_ammoPhysicsWorld.addRigidBody( body,
 		COLLISION_GROUP_SPHERE,
-		COLLISION_GROUP_SPHERE |
-		COLLISION_GROUP_PLANE |
-		COLLISION_GROUP_BOX);
+		COLLISION_GROUP_SPHERE | COLLISION_GROUP_PLANE | COLLISION_GROUP_BOX);
 
-	player.userData.physicsBody = body;
 	g_rigidBodies.push(player);
+	body.threeMesh = player;
 }
