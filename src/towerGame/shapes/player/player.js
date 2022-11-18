@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import {addMeshToScene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
+import {lastKey} from "../../myThreeHelper.js";
 
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
@@ -22,6 +23,11 @@ export function createPlayer(color=0x00A6E5, position={x:-10, y:0, z:-30}) {
 	mesh.position.set(position.x, position.y, position.z);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
+
+	mesh.collisionResponse = (mesh1) => {
+		lastKey.key = "jump"
+		//mesh1.material.color.setHex(Math.random() * 0xffffff);
+	};
 
 	//AMMO
 	let width = mesh.geometry.parameters.width;
@@ -58,7 +64,7 @@ export function createPlayer(color=0x00A6E5, position={x:-10, y:0, z:-30}) {
 export function createBall(){
 
 	let pos = {x: 0, y: 8, z: 0};
-	let radius = 2;
+	let radius = 1;
 	let quat = {x: 0, y: 0, z: 0, w: 1};
 	let mass = 10;
 
@@ -70,8 +76,13 @@ export function createBall(){
 	player.castShadow = true;
 	player.receiveShadow = true;
 	player.name = "player";
-	player.playerSpeed = 10;
-	player.playerJumpForce = 20;
+	player.playerSpeed = 20;
+	player.playerJumpForce = 150;
+
+	player.collisionResponse = (mesh1) => {
+		console.log("collision")
+		mesh1.material.color.setHex(Math.random() * 0xffffff);
+	};
 
 	//Ammojs Section
 	let transform = new Ammo.btTransform();
@@ -97,7 +108,7 @@ export function createBall(){
 
 	addMeshToScene(player)
 	g_ammoPhysicsWorld.addRigidBody( body,
-		COLLISION_GROUP_MOVEABLE,
+		COLLISION_GROUP_SPHERE,
 		COLLISION_GROUP_SPHERE |
 		COLLISION_GROUP_PLANE |
 		COLLISION_GROUP_BOX);

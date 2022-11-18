@@ -5,6 +5,8 @@ import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
 
+export let lastKey = {key: "Space"};
+
 export let g_scene, g_renderer, g_camera, g_controls, g_lilGui;
 
 export function createThreeScene() {
@@ -111,8 +113,12 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	let moveY =  0;
 
 	if (g_currentlyPressedKeys['Space']) {	//Space
-		applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
-
+		if (lastKey.key !== "jump"){
+			applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
+			lastKey.key = "jump";
+		} else {
+			//lastKey.key = "nojump"
+		}
 	}
 
 	if( moveX == 0 && moveY == 0 && moveZ == 0) return;

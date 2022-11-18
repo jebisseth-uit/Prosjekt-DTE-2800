@@ -30,6 +30,7 @@ import {addSprites} from "./hud/hud.js";
 
 //Globale variabler:
 let g_clock;
+export let lastKey;
 const g_currentlyPressedKeys = []
 const XZPLANE_SIDELENGTH = 100;
 const stats = new Stats();
@@ -86,6 +87,9 @@ export async function main() {
 
 function handleKeyUp(event) {
 	g_currentlyPressedKeys[event.code] = false;
+	lastKey = "";
+	console.log("keyUp")
+	//console.log(lastKey);
 
 	let keyCode = event.keyCode;
 
@@ -112,7 +116,19 @@ function handleKeyUp(event) {
 }
 
 function handleKeyDown(event) {
-	g_currentlyPressedKeys[event.code] = true;
+
+	g_currentlyPressedKeys[event.code] = true
+	let keyCode = event.keyCode;
+
+	switch(keyCode){
+		case 32: //Space: JUMP
+			//lastKey = "jump"
+			break;
+		default:
+			//lastKey = "nojump"
+	}
+
+	//lastKey = event.code;
 
 }
 
