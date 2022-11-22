@@ -4,7 +4,6 @@ import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 
-
 export let g_scene, g_renderer, g_camera, g_controls, g_lilGui;
 
 export function createThreeScene() {
@@ -40,30 +39,27 @@ export function createThreeScene() {
 	g_controls = new TrackballControls(g_camera, g_renderer.domElement);
 	g_controls.addEventListener( 'change', renderScene);
 
-
-
-
 	// audio, fulgte https://www.youtube.com/watch?v=91sjdKmqxdE&ab_channel=flanniganable for hvordan man setter opp
 // Henter lydfiler fra https://opengameart.org/content/4-chiptunes-adventure
 	// https://opengameart.org/content/heroic-demise-updated-version
-	// https://opengameart.org/content/zombies-sound-pack
 
 // create an AudioListener and add it to the camera
 	const listener = new THREE.AudioListener();
 	g_camera.add( listener );
 
 // create a global audio source
-	const backgroundMusic = new THREE.Audio( listener );
-	backgroundMusic.name = 'backgroundmusic';
+	const backgroundSound = new THREE.Audio( listener );
+
+// Local audio sources:
+
 
 // load a sound and set it as the Audio object's buffer
-	const audioLoader1 = new THREE.AudioLoader();
-	audioLoader1.load( "../../assets/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
-		backgroundMusic.setBuffer( buffer );
-		backgroundMusic.setLoop( true );
-		backgroundMusic.setVolume( 0.1 );
-		//backgroundMusic.play();
-		//g_scene.getObjectByName('cube').add(sound)
+	const audioLoader = new THREE.AudioLoader();
+	audioLoader.load( "../../assets/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
+		backgroundSound.setBuffer( buffer );
+		backgroundSound.setLoop( true );
+		backgroundSound.setVolume( 0.1 );
+		backgroundSound.play();
 	});
 }
 
