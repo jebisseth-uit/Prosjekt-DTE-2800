@@ -53,7 +53,7 @@ export function createThreeScene() {
 	const backgroundSound = new THREE.Audio( listener );
 
 // Local audio sources:
-	//const localSound1 = new THREE.PositionalAudio (listener);
+	const localSound2 = new THREE.PositionalAudio (listener);
 
 
 // load a sound and set it as the Audio object's buffer
@@ -66,14 +66,14 @@ export function createThreeScene() {
 	});
 
 // load a sound and set it as the local Audio object's buffer
-	/** const audioLoader2 = new THREE.AudioLoader();
-	audioLoader2.load( "../../assets/Music/zombie-15.wav", function( buffer ) {
-		localSound1.setBuffer( buffer );
-		localSound1.setLoop( true );
-		localSound1.setVolume( 1 );
-		//localSound1.play();
-		g_scene.getObjectByName('cube').add(localSound1)
-	}); */
+	const audioLoader1 = new THREE.AudioLoader();
+	audioLoader1.load( "../../assets/Music/zombie-16.wav", function( buffer ) {
+		localSound2.setBuffer( buffer );
+		localSound2.setLoop( true );
+		localSound2.setVolume( 1 );
+		localSound2.play();
+		g_scene.getObjectByName('cube').add(localSound2)
+	});
 
 }
 
