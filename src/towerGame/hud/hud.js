@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import {g_scene} from "../myThreeHelper";
 
-let spriteBL;
+let level = "Demolevel";
+let score = "Score: 1234";
+let time = "Time: 1:34";
 
 export async function addSprites(loader) {
 
@@ -9,19 +11,32 @@ export async function addSprites(loader) {
 	hud.name = "hud";
 
 	//Testsprite
-	const spriteMap1 = await loader.loadAsync('../../../assets/textures/bird1.png');
+	const spriteMap1 = await loader.loadAsync('../../../assets/sprites/health/heart_25.png');
 	let spriteMaterial1 = new THREE.SpriteMaterial( { map: spriteMap1, color: 0xffffff } );
 	let sprite1 = new THREE.Sprite( spriteMaterial1 );
 	sprite1.name = "sprite";
-	//sprite1.center.set(10,10)
 	sprite1.scale.set(2,2,2);
 	hud.add( sprite1 );
 
-	let spritey = makeTextSprite( " Test ",
-		{ fontsize: 44, textColor: {r:0, g:0, b:0, a:1.0}} );
-	spritey.position.set(3.5,-1,0);
-	spritey.scale.set(5,5,5);
-	hud.add(spritey)
+	console.log()
+
+	let levelName = makeTextSprite( level,
+		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
+	levelName.position.set(g_scene.position.x + 2.5,g_scene.position.y - 0.4,0);
+	levelName.scale.set(3,3,3);
+	hud.add(levelName)
+
+	let scoreSprite = makeTextSprite( score,
+		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
+	scoreSprite.position.set(g_scene.position.x + 2.5,g_scene.position.y - 1.1,0);
+	scoreSprite.scale.set(3,3,3);
+	hud.add(scoreSprite)
+
+	let timeSprite = makeTextSprite( time,
+		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
+	timeSprite.position.set(g_scene.position.x + 2.5,g_scene.position.y - 1.8,0);
+	timeSprite.scale.set(3,3,3);
+	hud.add(timeSprite)
 
 	g_scene.add( hud );
 }
