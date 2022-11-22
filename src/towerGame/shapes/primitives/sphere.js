@@ -5,7 +5,7 @@ import {impactSound} from "../../myThreeHelper.js";
 
 
 const audioLoader2 = new THREE.AudioLoader();
-audioLoader2.load( "../../../../assets/Music/zombie-15.wav", function( buffer ) {
+audioLoader2.load( "../../../../assets/Sound/SoundEffects/zombie-15.wav", function( buffer ) {
 	impactSound.setBuffer( buffer );
 	impactSound.setLoop( false );
 	impactSound.setVolume( 1 );

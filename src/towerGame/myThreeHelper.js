@@ -58,7 +58,7 @@ export function createThreeScene() {
 
 // load a sound and set it as the Audio object's buffer
 	const audioLoader = new THREE.AudioLoader();
-	audioLoader.load( "../../assets/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
+	audioLoader.load( "../../assets/Sound/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
 		backgroundSound.setBuffer( buffer );
 		backgroundSound.setLoop( true );
 		backgroundSound.setVolume( 0.05 );
@@ -67,7 +67,7 @@ export function createThreeScene() {
 
 // load a sound and set it as the local Audio object's buffer
 	const audioLoader1 = new THREE.AudioLoader();
-	audioLoader1.load( "../../assets/Music/zombie-16.wav", function( buffer ) {
+	audioLoader1.load( "../../assets/Sound/SoundEffects/zombie-16.wav", function( buffer ) {
 		localSound2.setBuffer( buffer );
 		localSound2.setLoop( true );
 		localSound2.setVolume( 1 );
