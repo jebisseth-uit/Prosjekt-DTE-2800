@@ -51,6 +51,7 @@ export function createThreeScene() {
 	const backgroundSound = new THREE.Audio( listener );
 
 // Local audio sources:
+	const localSound1 = new THREE.PositionalAudio (listener);
 
 
 // load a sound and set it as the Audio object's buffer
@@ -58,9 +59,20 @@ export function createThreeScene() {
 	audioLoader.load( "../../assets/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
 		backgroundSound.setBuffer( buffer );
 		backgroundSound.setLoop( true );
-		backgroundSound.setVolume( 0.1 );
-		backgroundSound.play();
+		backgroundSound.setVolume( 0.05 );
+		//backgroundSound.play();
 	});
+
+// load a sound and set it as the local Audio object's buffer
+	const audioLoader2 = new THREE.AudioLoader();
+	audioLoader2.load( "../../assets/Music/zombie-15.wav", function( buffer ) {
+		localSound1.setBuffer( buffer );
+		localSound1.setLoop( true );
+		localSound1.setVolume( 1 );
+		//localSound1.play();
+		g_scene.getObjectByName('cube').add(localSound1)
+	});
+
 }
 
 export function addLights() {
