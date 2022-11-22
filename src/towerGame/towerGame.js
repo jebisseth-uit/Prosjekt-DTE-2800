@@ -3,7 +3,7 @@ import * as THREE from "three";
 import Stats from 'stats.js';
 
 import {
-	createThreeScene,
+	createThreeScene, g_camera, g_scene,
 	handleKeys,
 	onWindowResize,
 	renderScene,
@@ -22,6 +22,10 @@ import {createPlayer} from "./shapes/player/player.js";
 
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
+
+//hud
+import {addSprites} from "./hud/hud.js";
+
 
 //Globale variabler:
 let g_clock;
@@ -44,6 +48,9 @@ export async function main() {
 	//Input - standard Javascript / WebGL:
 	document.addEventListener('keyup', handleKeyUp, false);
 	document.addEventListener('keydown', handleKeyDown, false);
+
+	const loader = new THREE.TextureLoader();
+	addSprites(loader);
 
 	// three:
 	createThreeScene();
@@ -86,7 +93,7 @@ function addAmmoSceneObjects() {
 	createPlayer();
 }
 
-function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
+function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	window.requestAnimationFrame((currentTime) => {
 		animate(currentTime, myThreeScene, myAmmoPhysicsWorld);
 	});
@@ -102,6 +109,16 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
 
 	//Sjekker input:
 	handleKeys(deltaTime, g_currentlyPressedKeys);
+
+	//Oppdaterer HUD
+	let sprite = g_scene.getObjectByName("sprite")
+	sprite.position.copy(g_camera.position)
+	sprite.rotation.copy(g_camera.rotation)
+	sprite.updateMatrix();
+	sprite.translateY(-6)
+	sprite.translateX(-10)
+	sprite.translateZ(-10)
+	//sprite.translateX(-10);
 
 	//Tegner scenen med gitt kamera:
 	renderScene();
