@@ -6,6 +6,9 @@ import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 
 export let g_scene, g_renderer, g_camera, g_controls, g_lilGui;
 
+export const listener = new THREE.AudioListener();
+export const impactSound = new THREE.PositionalAudio (listener);
+
 export function createThreeScene() {
 	const canvas = document.createElement('canvas');
 	document.body.appendChild(canvas);
@@ -44,14 +47,13 @@ export function createThreeScene() {
 	// https://opengameart.org/content/heroic-demise-updated-version
 
 // create an AudioListener and add it to the camera
-	const listener = new THREE.AudioListener();
 	g_camera.add( listener );
 
 // create a global audio source
 	const backgroundSound = new THREE.Audio( listener );
 
 // Local audio sources:
-	const localSound1 = new THREE.PositionalAudio (listener);
+	//const localSound1 = new THREE.PositionalAudio (listener);
 
 
 // load a sound and set it as the Audio object's buffer
@@ -64,14 +66,14 @@ export function createThreeScene() {
 	});
 
 // load a sound and set it as the local Audio object's buffer
-	const audioLoader2 = new THREE.AudioLoader();
+	/** const audioLoader2 = new THREE.AudioLoader();
 	audioLoader2.load( "../../assets/Music/zombie-15.wav", function( buffer ) {
 		localSound1.setBuffer( buffer );
 		localSound1.setLoop( true );
 		localSound1.setVolume( 1 );
 		//localSound1.play();
 		g_scene.getObjectByName('cube').add(localSound1)
-	});
+	}); */
 
 }
 
