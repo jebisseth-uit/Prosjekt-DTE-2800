@@ -42,9 +42,11 @@ export function createThreeScene() {
 	g_controls = new TrackballControls(g_camera, g_renderer.domElement);
 	g_controls.addEventListener( 'change', renderScene);
 
-	// audio, fulgte https://www.youtube.com/watch?v=91sjdKmqxdE&ab_channel=flanniganable for hvordan man setter opp
-// Henter lydfiler fra https://opengameart.org/content/4-chiptunes-adventure
+
+	// Henter lydfiler fra :
+	// https://opengameart.org/content/4-chiptunes-adventure
 	// https://opengameart.org/content/heroic-demise-updated-version
+	// https://opengameart.org/content/zombies-sound-pack
 
 // create an AudioListener and add it to the camera
 	g_camera.add( listener );

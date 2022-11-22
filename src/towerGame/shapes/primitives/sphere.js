@@ -10,7 +10,6 @@ audioLoader2.load( "../../../../assets/Sound/SoundEffects/zombie-15.wav", functi
 	impactSound.setLoop( false );
 	impactSound.setVolume( 1 );
 	impactSound.play();
-	//g_scene.getObjectByName('cube').add(localSound1)
 });
 
 let g_xzPlaneSideLength=100;
