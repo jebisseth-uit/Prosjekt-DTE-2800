@@ -1,6 +1,16 @@
 import * as THREE from "three";
-import {addMeshToScene} from "../../myThreeHelper.js";
+import {addMeshToScene, g_scene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
+import {impactSound} from "../../myThreeHelper.js";
+
+
+const audioLoader2 = new THREE.AudioLoader();
+audioLoader2.load( "../../../../assets/Sound/SoundEffects/zombie-15.wav", function( buffer ) {
+	impactSound.setBuffer( buffer );
+	impactSound.setLoop( false );
+	impactSound.setVolume( 1 );
+	impactSound.play();
+});
 
 let g_xzPlaneSideLength=100;
 
@@ -22,11 +32,13 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 	mesh.receiveShadow = true;
 	mesh.collisionResponse = (mesh1) => {
 		//mesh1.material.color.setHex(Math.random() * 0xffffff);
+		impactSound.play();
+
 	};
 	//AMMO
 	let shape = new Ammo.btSphereShape(mesh.geometry.parameters.radius);
 	shape.setMargin( 0.05 );
-	let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.5, position, mass);
+	let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0, position, mass);
 
 	mesh.userData.physicsBody = rigidBody;
 
