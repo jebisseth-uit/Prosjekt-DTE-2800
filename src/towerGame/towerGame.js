@@ -26,8 +26,12 @@ import {level_demo} from "./levels/demo/level_demo.js";
 //hud
 import {addSprites} from "./hud/hud.js";
 
-
 //Globale variabler:
+export let level = "Demo";
+export let score = 1234;
+export let time = "1:34";
+export let health = 45;
+
 let g_clock;
 const g_currentlyPressedKeys = []
 const XZPLANE_SIDELENGTH = 100;
@@ -111,7 +115,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	handleKeys(deltaTime, g_currentlyPressedKeys);
 
 	//Oppdaterer HUD
-	let sprite = g_scene.getObjectByName("sprite")
+	let sprite = g_scene.getObjectByName("hud")
 	sprite.position.copy(g_camera.position)
 	sprite.rotation.copy(g_camera.rotation)
 	sprite.updateMatrix();
