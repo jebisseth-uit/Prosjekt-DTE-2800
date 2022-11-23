@@ -11,12 +11,12 @@ export async function addSprites(loader) {
 	hud.name = "hud";
 
 	//Testsprite
-	const spriteMap1 = await loader.loadAsync('../../../assets/sprites/health/heart_25.png');
-	let spriteMaterial1 = new THREE.SpriteMaterial( { map: spriteMap1, color: 0xffffff } );
-	let sprite1 = new THREE.Sprite( spriteMaterial1 );
-	sprite1.name = "sprite";
-	sprite1.scale.set(2,2,2);
-	hud.add( sprite1 );
+	const healthSprite = await loader.loadAsync('../../../assets/sprites/health/heart_25.png');
+	let healthSpriteMaterial = new THREE.SpriteMaterial( { map: healthSprite, color: 0xffffff } );
+	let healthBar = new THREE.Sprite( healthSpriteMaterial );
+	healthBar.name = "healthbar";
+	healthBar.scale.set(2,2,2);
+	hud.add( healthBar );
 
 	console.log()
 
