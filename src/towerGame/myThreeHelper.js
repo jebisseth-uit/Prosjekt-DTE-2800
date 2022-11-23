@@ -37,9 +37,9 @@ export function createThreeScene() {
 
 	// Kamera:
 	g_camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-	g_camera.position.x = 30;
-	g_camera.position.y = 160;
-	g_camera.position.z = 100;
+	g_camera.position.x = 20;
+	g_camera.position.y = 60;
+	g_camera.position.z = 90;
 
 	// TrackballControls:
 	g_controls = new TrackballControls(g_camera, g_renderer.domElement);
@@ -150,6 +150,10 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	let moveX =  moveDirection.right - moveDirection.left;
 	let moveZ =  moveDirection.back - moveDirection.forward;
 	let moveY =  0;
+
+	if (g_currentlyPressedKeys['KeyQ']) {
+		g_controls.reset();
+	}
 
 	if (g_currentlyPressedKeys['KeyM']) {	//Space
 		if (lastKey.key !== "jump"){
