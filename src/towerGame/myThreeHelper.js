@@ -3,8 +3,14 @@ import GUI from "lil-gui";
 import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
+import {moveDirection} from "./towerGame.js";
+
+export let lastKey = {key: "Space"};
 
 export let g_scene, g_renderer, g_camera, g_controls, g_lilGui;
+
+export const listener = new THREE.AudioListener();
+export const impactSound = new THREE.PositionalAudio (listener);
 
 export function createThreeScene() {
 	const canvas = document.createElement('canvas');
@@ -38,6 +44,42 @@ export function createThreeScene() {
 	// TrackballControls:
 	g_controls = new TrackballControls(g_camera, g_renderer.domElement);
 	g_controls.addEventListener( 'change', renderScene);
+
+
+	// Henter lydfiler fra :
+	// https://opengameart.org/content/4-chiptunes-adventure
+	// https://opengameart.org/content/heroic-demise-updated-version
+	// https://opengameart.org/content/zombies-sound-pack
+
+// create an AudioListener and add it to the camera
+	g_camera.add( listener );
+
+// create a global audio source
+	const backgroundSound = new THREE.Audio( listener );
+
+// Local audio sources:
+	const localSound2 = new THREE.PositionalAudio (listener);
+
+
+// load a sound and set it as the Audio object's buffer
+	const audioLoader = new THREE.AudioLoader();
+	audioLoader.load( "../../assets/Sound/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
+		backgroundSound.setBuffer( buffer );
+		backgroundSound.setLoop( true );
+		backgroundSound.setVolume( 0.05 );
+		//backgroundSound.play();
+	});
+
+// load a sound and set it as the local Audio object's buffer
+	const audioLoader1 = new THREE.AudioLoader();
+	audioLoader1.load( "../../assets/Sound/SoundEffects/zombie-16.wav", function( buffer ) {
+		localSound2.setBuffer( buffer );
+		localSound2.setLoop( true );
+		localSound2.setVolume( 1 );
+		//localSound2.play();
+		g_scene.getObjectByName('cube').add(localSound2)
+	});
+
 }
 
 export function addLights() {
@@ -83,27 +125,49 @@ export function addLights() {
 
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
+
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
 	}
-	if (g_currentlyPressedKeys['KeyU']) {	//H
-		const cube = g_scene.getObjectByName("cube");
-		applyImpulse(cube.userData.physicsBody, 50, {x:0, y:1, z:0});
-	}
 
-	const movable = g_scene.getObjectByName("movable");
+	const player = g_scene.getObjectByName("player");
+	const playerSpeed = player.playerSpeed;
+	const playerJumpForce = player.playerJumpForce;
+
 	if (g_currentlyPressedKeys['KeyA']) {	//A
-		moveRigidBody(movable,{x: -0.2, y: 0, z: 0});
+		moveDirection.left = 1;
 	}
 	if (g_currentlyPressedKeys['KeyD']) {	//D
-		moveRigidBody(movable,{x: 0.2, y: 0, z: 0});
+		moveDirection.right = 1;
 	}
 	if (g_currentlyPressedKeys['KeyW']) {	//W
-		moveRigidBody(movable,{x: 0, y: 0, z: -0.2});
+		moveDirection.forward = 1;
 	}
 	if (g_currentlyPressedKeys['KeyS']) {	//S
-		moveRigidBody(movable,{x: 0, y: 0, z: 0.2});
+		moveDirection.back = 1;
 	}
+
+	let moveX =  moveDirection.right - moveDirection.left;
+	let moveZ =  moveDirection.back - moveDirection.forward;
+	let moveY =  0;
+
+	if (g_currentlyPressedKeys['KeyM']) {	//Space
+		if (lastKey.key !== "jump"){
+			applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
+			lastKey.key = "jump";
+		} else {
+			//lastKey.key = "nojump"
+		}
+	}
+
+	if( moveX == 0 && moveY == 0 && moveZ == 0) return;
+
+	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
+	resultantImpulse.op_mul(playerSpeed);
+
+	let physicsBody = player.userData.physicsBody;
+	physicsBody.setLinearVelocity( resultantImpulse );
+
 }
 
 export function onWindowResize() {

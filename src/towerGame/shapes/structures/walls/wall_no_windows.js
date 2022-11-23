@@ -47,10 +47,10 @@ export async function createWall_no_windows(name, width = 1, height = 1, depth =
 	// Legger til physics world:
 	g_ammoPhysicsWorld.addRigidBody(
 		rigidBody,
-		COLLISION_GROUP_MOVEABLE,
+		COLLISION_GROUP_BOX,
 		COLLISION_GROUP_SPHERE |
 		COLLISION_GROUP_PLANE |
-		COLLISION_GROUP_BOX
+		COLLISION_GROUP_MOVEABLE
 	);
 
 	addMeshToScene(mesh);
