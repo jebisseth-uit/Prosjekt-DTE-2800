@@ -32,7 +32,7 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 	mesh.receiveShadow = true;
 	mesh.collisionResponse = (mesh1) => {
 		//mesh1.material.color.setHex(Math.random() * 0xffffff);
-		impactSound.play();
+		//impactSound.play();
 
 	};
 	//AMMO

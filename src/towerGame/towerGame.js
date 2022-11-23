@@ -60,9 +60,6 @@ export async function main() {
 	document.addEventListener('keyup', handleKeyUp, false);
 	document.addEventListener('keydown', handleKeyDown, false);
 
-	//Oppdater HUD
-	updateHud();
-
 	// three:
 	createThreeScene();
 
@@ -150,14 +147,8 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	//Sjekker input:
 	handleKeys(deltaTime, g_currentlyPressedKeys);
 
-	//Oppdaterer HUD
-	let sprite = g_scene.getObjectByName("hud")
-	sprite.position.copy(g_camera.position)
-	sprite.rotation.copy(g_camera.rotation)
-	sprite.updateMatrix();
-	sprite.translateY(-6)
-	sprite.translateX(-10)
-	sprite.translateZ(-10)
+	//Oppdater HUD
+	updateHud();
 
 	//Tegner scenen med gitt kamera:
 	renderScene();
