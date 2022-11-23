@@ -92,8 +92,8 @@ function checkCollisions(deltaTime) {
 					if (distance <= 0) {
 						// Vi har en kollisjon og er
 						// kun interessert i kollisjon mellom kulene:
-						if ((threeMesh0.name === 'sphere' && threeMesh1.name === 'sphere') ||
-							threeMesh1.name === 'sphere' && threeMesh0.name === 'sphere') {
+						//if ((threeMesh0.name === 'sphere' && threeMesh1.name === 'sphere') ||
+							//threeMesh1.name === 'sphere' && threeMesh0.name === 'sphere') {
 							// Debuginfo:
 							let velocity0 = rbObject0.getLinearVelocity();
 							let velocity1 = rbObject1.getLinearVelocity();
@@ -102,7 +102,7 @@ function checkCollisions(deltaTime) {
 							let localPos0 = contactPoint.get_m_localPointA();
 							let localPos1 = contactPoint.get_m_localPointB();
 							//console.log('Kollisjon mellom ' + threeMesh0.name + " og " + threeMesh1.name);
-							console.log({
+							/**console.log({
 								manifoldIndex: i,
 								contactIndex: j,
 								distance: distance,
@@ -118,12 +118,12 @@ function checkCollisions(deltaTime) {
 									worldPos: {x: worldPos1.x(), y: worldPos1.y(), z: worldPos1.z()},
 									localPos: {x: localPos1.x(), y: localPos1.y(), z: localPos1.z()}
 								}
-							});
+							});**/
 							if (typeof threeMesh0.collisionResponse === 'function')
 								threeMesh0.collisionResponse(threeMesh0);
 							if (typeof threeMesh1.collisionResponse === 'function')
 								threeMesh1.collisionResponse(threeMesh1);
-						}
+						//}
 					}
 				}
 			}

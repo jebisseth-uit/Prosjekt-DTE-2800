@@ -3,6 +3,9 @@ import GUI from "lil-gui";
 import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
+import {moveDirection} from "./towerGame.js";
+
+export let lastKey = {key: "Space"};
 
 export let g_scene, g_renderer, g_camera, g_controls, g_lilGui;
 
@@ -122,27 +125,49 @@ export function addLights() {
 
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
+
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
 	}
-	if (g_currentlyPressedKeys['KeyU']) {	//H
-		const cube = g_scene.getObjectByName("cube");
-		applyImpulse(cube.userData.physicsBody, 50, {x:0, y:1, z:0});
-	}
 
-	const movable = g_scene.getObjectByName("movable");
+	const player = g_scene.getObjectByName("player");
+	const playerSpeed = player.playerSpeed;
+	const playerJumpForce = player.playerJumpForce;
+
 	if (g_currentlyPressedKeys['KeyA']) {	//A
-		moveRigidBody(movable,{x: -0.2, y: 0, z: 0});
+		moveDirection.left = 1;
 	}
 	if (g_currentlyPressedKeys['KeyD']) {	//D
-		moveRigidBody(movable,{x: 0.2, y: 0, z: 0});
+		moveDirection.right = 1;
 	}
 	if (g_currentlyPressedKeys['KeyW']) {	//W
-		moveRigidBody(movable,{x: 0, y: 0, z: -0.2});
+		moveDirection.forward = 1;
 	}
 	if (g_currentlyPressedKeys['KeyS']) {	//S
-		moveRigidBody(movable,{x: 0, y: 0, z: 0.2});
+		moveDirection.back = 1;
 	}
+
+	let moveX =  moveDirection.right - moveDirection.left;
+	let moveZ =  moveDirection.back - moveDirection.forward;
+	let moveY =  0;
+
+	if (g_currentlyPressedKeys['KeyM']) {	//Space
+		if (lastKey.key !== "jump"){
+			applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
+			lastKey.key = "jump";
+		} else {
+			//lastKey.key = "nojump"
+		}
+	}
+
+	if( moveX == 0 && moveY == 0 && moveZ == 0) return;
+
+	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
+	resultantImpulse.op_mul(playerSpeed);
+
+	let physicsBody = player.userData.physicsBody;
+	physicsBody.setLinearVelocity( resultantImpulse );
+
 }
 
 export function onWindowResize() {

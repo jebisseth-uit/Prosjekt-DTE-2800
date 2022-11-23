@@ -6,6 +6,7 @@ let g_xzPlaneSideLength=100;
 
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
+const COLLISION_GROUP_MOVABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
 export function createXZPlane(xzPlaneSideLength) {
@@ -31,7 +32,7 @@ export function createXZPlane(xzPlaneSideLength) {
 	g_ammoPhysicsWorld.addRigidBody(
 		rigidBody,
 		COLLISION_GROUP_PLANE,
-		COLLISION_GROUP_SPHERE | COLLISION_GROUP_BOX);
+		COLLISION_GROUP_SPHERE | COLLISION_GROUP_BOX | COLLISION_GROUP_MOVABLE);
 
 	addMeshToScene(mesh);
 	g_rigidBodies.push(mesh);
