@@ -15,6 +15,7 @@ export async function addSprites(loader) {
 	//console.log(heart);
 	// Health heart image
 	const healthSprite = await loader.loadAsync('../../../assets/sprites/health/heart_' + heart + '.png');
+	console.log("healthSprite",healthSprite)
 	let healthSpriteMaterial = new THREE.SpriteMaterial( { map: healthSprite, color: 0xffffff } );
 	let healthBar = new THREE.Sprite( healthSpriteMaterial );
 	healthBar.name = "healthbar";

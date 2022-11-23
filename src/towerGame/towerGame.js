@@ -23,6 +23,7 @@ import {createBall} from "./shapes/player/player.js";
 
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
+import {addSprites} from "./hud/hud";
 import MyEnemy from './MyEnemy.js';
 
 //Globale variabler:
@@ -84,7 +85,7 @@ export async function main() {
 	//Input - standard Javascript / WebGL:
 	document.addEventListener('keyup', handleKeyUp, false);
 	document.addEventListener('keydown', handleKeyDown, false);
-	myEnemy.loadEnemy();
+
 	// Start animasjonsløkka:
 	animate(0);
 }
@@ -129,8 +130,9 @@ function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
 	createSpheres(20);
 	createCube();
-	//createPlayer();
+	createPlayer();
 	createBall();
+	myEnemy.loadEnemy();
 }
 
 function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
