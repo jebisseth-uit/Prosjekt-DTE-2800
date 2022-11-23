@@ -4,13 +4,34 @@ import {level, score, time, health} from "../towerGame";
 
 let heartValue = "full";
 
-export async function addSprites(loader) {
+export async function updateHud(loader) {
 
 	let hud = new THREE.Group;
 	hud.name = "hud";
 	
 	let heart = setHealthImage(health);
 
+	// Update heart
+	let heartString = "../../assets/sprites/health/heart_" + heart + ".png"
+	document.getElementById("health").src=heartString;
+
+	// Update health percent
+	let healthPercentString = health + " %"
+	document.getElementById("healthPercent").innerHTML=healthPercentString;
+
+	// Update level
+	let levelString = "Level: " + level;
+	document.getElementById("level").innerHTML = levelString;
+
+	// Update score
+	let scoreString = "Score: " + score;
+	document.getElementById("score").innerHTML = scoreString;
+
+	//Update time
+	let timeString = "Time: " + time;
+	document.getElementById("time").innerHTML = timeString;
+
+	/**
 	//console.log(health);
 	//console.log(heart);
 	// Health heart image
@@ -49,7 +70,7 @@ export async function addSprites(loader) {
 	timeSprite.scale.set(3,3,3);
 	hud.add(timeSprite)
 
-	g_scene.add( hud );
+	g_scene.add( hud );**/
 }
 
 function setHealthImage(health){
