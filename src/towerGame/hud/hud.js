@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import {g_scene} from "../myThreeHelper";
 
-let level = "Demolevel";
-let score = "Score: 1234";
-let time = "Time: 1:34";
+export let level = "Demo";
+export let score = 1234;
+export let time = "1:34";
 
 export async function addSprites(loader) {
 
@@ -20,19 +20,19 @@ export async function addSprites(loader) {
 
 	console.log()
 
-	let levelName = makeTextSprite( level,
+	let levelName = makeTextSprite( "Level: " + level,
 		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
 	levelName.position.set(g_scene.position.x + 2.5,g_scene.position.y - 0.4,0);
 	levelName.scale.set(3,3,3);
 	hud.add(levelName)
 
-	let scoreSprite = makeTextSprite( score,
+	let scoreSprite = makeTextSprite( "Score: " + score ,
 		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
 	scoreSprite.position.set(g_scene.position.x + 2.5,g_scene.position.y - 1.1,0);
 	scoreSprite.scale.set(3,3,3);
 	hud.add(scoreSprite)
 
-	let timeSprite = makeTextSprite( time,
+	let timeSprite = makeTextSprite( "Time:  " + time,
 		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
 	timeSprite.position.set(g_scene.position.x + 2.5,g_scene.position.y - 1.8,0);
 	timeSprite.scale.set(3,3,3);
