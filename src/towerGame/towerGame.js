@@ -1,9 +1,8 @@
 import '../../style.css';
 import * as THREE from "three";
 import Stats from 'stats.js';
-
 import {
-	createThreeScene, g_camera, g_scene,
+	createThreeScene,
 	handleKeys,
 	onWindowResize,
 	renderScene,
@@ -22,16 +21,15 @@ import {createPlayer} from "./shapes/player/player.js";
 
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
-
-//hud
-import {addSprites} from "./hud/hud.js";
-
+import MyEnemy from './MyEnemy.js';
 
 //Globale variabler:
 let g_clock;
 const g_currentlyPressedKeys = []
 const XZPLANE_SIDELENGTH = 100;
 const stats = new Stats();
+
+const myEnemy = new MyEnemy();
 
 //STARTER!
 //Ammojs Initialization
@@ -48,9 +46,6 @@ export async function main() {
 	//Input - standard Javascript / WebGL:
 	document.addEventListener('keyup', handleKeyUp, false);
 	document.addEventListener('keydown', handleKeyDown, false);
-
-	const loader = new THREE.TextureLoader();
-	addSprites(loader);
 
 	// three:
 	createThreeScene();
@@ -73,7 +68,7 @@ export async function main() {
 	//Input - standard Javascript / WebGL:
 	document.addEventListener('keyup', handleKeyUp, false);
 	document.addEventListener('keydown', handleKeyDown, false);
-
+	myEnemy.loadEnemy();
 	// Start animasjonsløkka:
 	animate(0);
 }
@@ -88,12 +83,12 @@ function handleKeyDown(event) {
 
 function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
-	createSpheres(20);
+	// createSpheres(20);
 	createCube();
 	createPlayer();
 }
 
-function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
+function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
 	window.requestAnimationFrame((currentTime) => {
 		animate(currentTime, myThreeScene, myAmmoPhysicsWorld);
 	});
@@ -109,16 +104,6 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 
 	//Sjekker input:
 	handleKeys(deltaTime, g_currentlyPressedKeys);
-
-	//Oppdaterer HUD
-	let sprite = g_scene.getObjectByName("sprite")
-	sprite.position.copy(g_camera.position)
-	sprite.rotation.copy(g_camera.rotation)
-	sprite.updateMatrix();
-	sprite.translateY(-6)
-	sprite.translateX(-10)
-	sprite.translateZ(-10)
-	//sprite.translateX(-10);
 
 	//Tegner scenen med gitt kamera:
 	renderScene();

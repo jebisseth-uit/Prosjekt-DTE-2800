@@ -4,7 +4,25 @@
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
     <title>Prosjektoppgave - Gruppe 2</title>
+    <style>
+        .gamescore{
+            position: absolute;
+            width: 100%;
+            height: auto;
+            font-size: 2rem;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            line-height: 0rem;
+            color: blueviolet;
+            text-transform: capitalize;
+            text-align: left;
+        }
+    </style>
 </head>
+<div  class="gamescore">
+    <h1 id="gamescore">Game Score:0</h1>
+</div>
 <div style="top:0px; left:15px; width:100%; text-align:left; color:black;" class="ui">
     <h1>Prosjektoppgave - Gruppe 2</h1>
     <button onclick="history.back()">Tilbake</button>
@@ -16,5 +34,7 @@
 </div>
 <body>
 <script src="../../static/lib/ammo/ammo.js"></script>
+
+
 </body>
 </html>
