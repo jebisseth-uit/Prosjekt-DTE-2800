@@ -15,6 +15,10 @@ export async function updateHud(loader) {
 	let heartString = "../../assets/sprites/health/heart_" + heart + ".png"
 	document.getElementById("health").src=heartString;
 
+	// Update health percent
+	let healthPercentString = health + " %"
+	document.getElementById("healthPercent").innerHTML=healthPercentString;
+
 	// Update level
 	let levelString = "Level: " + level;
 	document.getElementById("level").innerHTML = levelString;
