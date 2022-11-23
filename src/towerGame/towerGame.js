@@ -158,7 +158,6 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	sprite.translateY(-6)
 	sprite.translateX(-10)
 	sprite.translateZ(-10)
-	sprite.translateX(-10);
 
 	//Tegner scenen med gitt kamera:
 	renderScene();
