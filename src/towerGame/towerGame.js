@@ -61,7 +61,7 @@ export async function main() {
 	document.addEventListener('keydown', handleKeyDown, false);
 
 	const loader = new THREE.TextureLoader();
-	addSprites(loader);
+	//addSprites(loader);
 
 	// three:
 	createThreeScene();
