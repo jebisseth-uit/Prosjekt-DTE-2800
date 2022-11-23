@@ -25,7 +25,7 @@ import {createBall} from "./shapes/player/player.js";
 import {level_demo} from "./levels/demo/level_demo.js";
 
 //hud
-import {addSprites} from "./hud/hud.js";
+import {updateHud} from "./hud/hud.js";
 
 //Globale variabler:
 export let level = "Demo";
@@ -60,8 +60,8 @@ export async function main() {
 	document.addEventListener('keyup', handleKeyUp, false);
 	document.addEventListener('keydown', handleKeyDown, false);
 
-	const loader = new THREE.TextureLoader();
-	//addSprites(loader);
+	//Oppdater HUD
+	updateHud();
 
 	// three:
 	createThreeScene();
