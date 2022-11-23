@@ -9,6 +9,9 @@ export let lastKey = {key: "Space"};
 
 export let g_scene, g_renderer, g_camera, g_controls, g_lilGui;
 
+export const listener = new THREE.AudioListener();
+export const impactSound = new THREE.PositionalAudio (listener);
+
 export function createThreeScene() {
 	const canvas = document.createElement('canvas');
 	document.body.appendChild(canvas);
@@ -41,6 +44,42 @@ export function createThreeScene() {
 	// TrackballControls:
 	g_controls = new TrackballControls(g_camera, g_renderer.domElement);
 	g_controls.addEventListener( 'change', renderScene);
+
+
+	// Henter lydfiler fra :
+	// https://opengameart.org/content/4-chiptunes-adventure
+	// https://opengameart.org/content/heroic-demise-updated-version
+	// https://opengameart.org/content/zombies-sound-pack
+
+// create an AudioListener and add it to the camera
+	g_camera.add( listener );
+
+// create a global audio source
+	const backgroundSound = new THREE.Audio( listener );
+
+// Local audio sources:
+	const localSound2 = new THREE.PositionalAudio (listener);
+
+
+// load a sound and set it as the Audio object's buffer
+	const audioLoader = new THREE.AudioLoader();
+	audioLoader.load( "../../assets/Sound/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
+		backgroundSound.setBuffer( buffer );
+		backgroundSound.setLoop( true );
+		backgroundSound.setVolume( 0.05 );
+		//backgroundSound.play();
+	});
+
+// load a sound and set it as the local Audio object's buffer
+	const audioLoader1 = new THREE.AudioLoader();
+	audioLoader1.load( "../../assets/Sound/SoundEffects/zombie-16.wav", function( buffer ) {
+		localSound2.setBuffer( buffer );
+		localSound2.setLoop( true );
+		localSound2.setVolume( 1 );
+		//localSound2.play();
+		g_scene.getObjectByName('cube').add(localSound2)
+	});
+
 }
 
 export function addLights() {
