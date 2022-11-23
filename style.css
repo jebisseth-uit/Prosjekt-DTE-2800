@@ -14,6 +14,14 @@ body {
     position: absolute;
 }
 
+.hud{
+    position: absolute;
+    display: block;
+    z-index: 99;
+    left: 50%;
+    top: 80%;
+}
+
 .button {
     background-color: #4CAF50; /* Green */
     border: none;
