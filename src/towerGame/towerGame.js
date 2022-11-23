@@ -150,8 +150,13 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	//Oppdater HUD
 	updateHud();
 
+	// Oppdaterer kamera til å se mot spiller
+	//const player = g_scene.getObjectByName("player");
+	//g_camera.lookAt(player.position.x, player.position.y, player.position.z)
+
 	//Tegner scenen med gitt kamera:
 	renderScene();
+
 
 	stats.end();
 }
