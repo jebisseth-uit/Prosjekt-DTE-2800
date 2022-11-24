@@ -8,9 +8,11 @@ const path = require('path')
 // undermappe med samme navn som hthml-fila.
 // PASS PÅ REKKEFØLGEN (1-1 mellom pages og pagesDir):
 const pages = [
-    "towerGame"
+    "towerGame",
+    "home"
 ];
 const pagesDir = [
+    "",
     ""
 ];
 
@@ -88,7 +90,7 @@ module.exports = {
 
             // Images
             {
-                test: /\.(jpg|png|gif|svg)$/,
+                test: /\.(jpg|png|gif|svg|ogg)$/,
                 type: 'asset/resource',
                 generator:
                 {

@@ -1,8 +1,9 @@
 import '../../style.css';
 import * as THREE from "three";
 import Stats from 'stats.js';
+
 import {
-	createThreeScene,
+	createThreeScene, g_camera, g_scene,
 	handleKeys,
 	onWindowResize,
 	renderScene,
@@ -15,20 +16,38 @@ import {
 } from "./myAmmoHelper.js";
 
 import {createXZPlane} from "./shapes/primitives/xzplane.js";
+import {createSpheres} from "./shapes/primitives/sphere.js";
 import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
+import {createBall} from "./shapes/player/player.js";
 
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
-import MyEnemy from './MyEnemy.js';
+
+//hud
+import {updateHud} from "./hud/hud.js";
+import {Tween} from "@tweenjs/tween.js";
+import {TWEEN} from "three/addons/libs/tween.module.min";
+
+import {loadEnemy,enemyMesh} from './MyEnemy';
+import {createEnemy} from './createEnemy';
 
 //Globale variabler:
+export let level = "Demo";
+export let score = {total: 0};
+export let time = "1:34";
+export let health = 45;
+
 let g_clock;
+export let lastKey;
 const g_currentlyPressedKeys = []
 const XZPLANE_SIDELENGTH = 100;
 const stats = new Stats();
 
-const myEnemy = new MyEnemy();
+export let moveDirection;
+moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
+
+
 
 //STARTER!
 //Ammojs Initialization
@@ -55,6 +74,9 @@ export async function main() {
 	// three/ammo-objekter:
 	addAmmoSceneObjects();
 
+    loadEnemy();
+	
+	
 	// draw level
 	level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
 
@@ -67,27 +89,55 @@ export async function main() {
 	//Input - standard Javascript / WebGL:
 	document.addEventListener('keyup', handleKeyUp, false);
 	document.addEventListener('keydown', handleKeyDown, false);
-	myEnemy.loadEnemy();
+
 	// Start animasjonsløkka:
 	animate(0);
 }
 
 function handleKeyUp(event) {
 	g_currentlyPressedKeys[event.code] = false;
+	lastKey = "";
+	//console.log(lastKey);
+
+	let keyCode = event.keyCode;
+
+	switch(keyCode){
+		case 87: //FORWARD
+			moveDirection.forward = 0
+			break;
+
+		case 83: //BACK
+			moveDirection.back = 0
+			break;
+
+		case 65: //LEFT
+			moveDirection.left = 0
+			break;
+
+		case 68: //RIGHT
+			moveDirection.right = 0
+			break;
+
+		case 32: //Space: JUMP
+			break;
+	}
 }
 
 function handleKeyDown(event) {
-	g_currentlyPressedKeys[event.code] = true;
+	g_currentlyPressedKeys[event.code] = true
 }
-
 function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
 	// createSpheres(20);
 	createCube();
-	createPlayer();
+	//createPlayer();
+	createBall();
+	setTimeout(() => {
+		createEnemy(enemyMesh,8);	
+	}, 2000);
 }
 
-function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
+function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	window.requestAnimationFrame((currentTime) => {
 		animate(currentTime, myThreeScene, myAmmoPhysicsWorld);
 	});
@@ -104,8 +154,18 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
 	//Sjekker input:
 	handleKeys(deltaTime, g_currentlyPressedKeys);
 
+	//Oppdater HUD
+	updateHud();
+
+	// Oppdaterer kamera til å se mot spiller
+	//const player = g_scene.getObjectByName("player");
+	//g_camera.lookAt(player.position.x, player.position.y, player.position.z)
+
+	TWEEN.update();
+
 	//Tegner scenen med gitt kamera:
 	renderScene();
+
 
 	stats.end();
 }
