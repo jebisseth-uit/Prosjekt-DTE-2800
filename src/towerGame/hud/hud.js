@@ -74,8 +74,6 @@ export async function updateHud(loader) {
 }
 
 function setHealthImage(health){
-	console.log("switch")
-	console.log(health)
 	switch (true){
 		case (health > 89):
 			heartValue = "full";
@@ -92,7 +90,6 @@ function setHealthImage(health){
 		default:
 			heartValue = "empty"
 	}
-	console.log(heartValue)
 	return heartValue;
 }
 
