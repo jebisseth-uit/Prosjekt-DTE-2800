@@ -28,6 +28,7 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 	let mesh = new THREE.Mesh(
 		new THREE.SphereGeometry(radius, 32, 32),
 		new THREE.MeshStandardMaterial({color: color}));
+	mesh.points = 10;
 	mesh.hit = false;
 	mesh.material.transparent = true;
 	mesh.position.set(position.x, position.y, position.z);

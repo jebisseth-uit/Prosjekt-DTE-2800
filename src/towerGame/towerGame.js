@@ -26,7 +26,6 @@ import {level_demo} from "./levels/demo/level_demo.js";
 
 //hud
 import {updateHud} from "./hud/hud.js";
-import {Tween} from "@tweenjs/tween.js";
 import {TWEEN} from "three/addons/libs/tween.module.min";
 
 //Globale variabler:
