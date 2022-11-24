@@ -120,9 +120,9 @@ function checkCollisions(deltaTime) {
 								}
 							});**/
 							if (typeof threeMesh0.collisionResponse === 'function')
-								threeMesh0.collisionResponse(threeMesh0);
+								threeMesh0.collisionResponse(threeMesh0, threeMesh1);
 							if (typeof threeMesh1.collisionResponse === 'function')
-								threeMesh1.collisionResponse(threeMesh1);
+								threeMesh1.collisionResponse(threeMesh1, threeMesh0);
 						//}
 					}
 				}
