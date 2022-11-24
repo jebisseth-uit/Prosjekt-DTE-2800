@@ -26,6 +26,8 @@ import {level_demo} from "./levels/demo/level_demo.js";
 
 //hud
 import {updateHud} from "./hud/hud.js";
+import {Tween} from "@tweenjs/tween.js";
+import {TWEEN} from "three/addons/libs/tween.module.min";
 
 //Globale variabler:
 export let level = "Demo";
@@ -151,6 +153,8 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	// Oppdaterer kamera til å se mot spiller
 	//const player = g_scene.getObjectByName("player");
 	//g_camera.lookAt(player.position.x, player.position.y, player.position.z)
+
+	TWEEN.update();
 
 	//Tegner scenen med gitt kamera:
 	renderScene();
