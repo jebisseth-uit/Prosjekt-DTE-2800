@@ -89,7 +89,6 @@ export async function main() {
 function handleKeyUp(event) {
 	g_currentlyPressedKeys[event.code] = false;
 	lastKey = "";
-	console.log("keyUp")
 	//console.log(lastKey);
 
 	let keyCode = event.keyCode;
@@ -118,7 +117,6 @@ function handleKeyUp(event) {
 
 function handleKeyDown(event) {
 	g_currentlyPressedKeys[event.code] = true
-	console.log(event.code)
 
 }
 
