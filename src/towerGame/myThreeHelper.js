@@ -124,6 +124,8 @@ export function addLights() {
 	directionalFolder.addColor(directionalLight, 'color').name("Color");
 }
 
+const axesHelper = new THREE.AxesHelper( 5 );
+
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
 
@@ -132,6 +134,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	}
 
 	const player = g_scene.getObjectByName("player");
+	player.add( axesHelper );
 	const playerSpeed = player.playerSpeed;
 	const playerJumpForce = player.playerJumpForce;
 	const playerWorldPos = new THREE.Vector3();
@@ -139,10 +142,13 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 
 
 	if (g_currentlyPressedKeys['KeyA']) {	//A
-		moveDirection.left = 1;
+		player.rotation.y = 0.2;
+		moveDirection.left = 0;
 	}
 	if (g_currentlyPressedKeys['KeyD']) {	//D
-		moveDirection.right = 1;
+		player.rotation.y = -0.2;
+		console.log(player.rotation.y)
+		moveDirection.right = 0;
 	}
 	if (g_currentlyPressedKeys['KeyW']) {	//W
 		moveDirection.forward = 1;
@@ -169,8 +175,6 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	}
 
 	if (g_currentlyPressedKeys['KeyN']) {	//Space
-		console.log(player.position.x)
-		console.log(player.position.z)
 		let projectile;
 		if (!g_scene.getObjectByName("projectile")){
 			// Get world posistion of player for spawning projectile
@@ -185,7 +189,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 
 	if( moveX == 0 && moveY == 0 && moveZ == 0) return;
 
-	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
+	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ)
 	resultantImpulse.op_mul(playerSpeed);
 
 	let physicsBody = player.userData.physicsBody;
