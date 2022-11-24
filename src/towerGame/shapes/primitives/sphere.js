@@ -30,9 +30,12 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 	mesh.position.set(position.x, position.y, position.z);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
-	mesh.collisionResponse = (mesh1) => {
-		//mesh1.material.color.setHex(Math.random() * 0xffffff);
-		impactSound.play();
+	mesh.collisionResponse = (mesh1, mesh2) => {
+		// mesh1 = this object, mesh2 = colliding object
+		if (mesh2.name === "player"){
+			mesh1.material.color.setHex(Math.random() * 0xffffff);
+			impactSound.play();
+		}
 
 	};
 	//AMMO

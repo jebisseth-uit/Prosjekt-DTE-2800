@@ -29,7 +29,7 @@ export async function createWall_no_windows(name, width = 1, height = 1, depth =
 		new THREE.BoxGeometry(width,height,depth, 1, 1),
 		materialBasicAlpahamap);
 	materialBasicAlpahamap.opacity = opacity;
-	mesh.name = 'name';
+	mesh.name = 'wall';
 	mesh.rotation.set(rotation.x, rotation.y, rotation.z);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
