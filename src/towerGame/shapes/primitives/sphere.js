@@ -3,6 +3,7 @@ import {addMeshToScene, g_scene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
 import {impactSound} from "../../myThreeHelper.js";
 import {TWEEN} from "three/addons/libs/tween.module.min.js";
+import {score} from "../../towerGame";
 
 
 const audioLoader2 = new THREE.AudioLoader();
@@ -28,6 +29,8 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 		new THREE.SphereGeometry(radius, 32, 32),
 		new THREE.MeshStandardMaterial({color: color}));
 	mesh.name = 'sphere';
+	mesh.points = 10;
+	mesh.hit = false;
 	mesh.material.transparent = true;
 	mesh.position.set(position.x, position.y, position.z);
 	mesh.castShadow = true;
@@ -41,6 +44,11 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 			setTimeout(function(){
 				g_scene.remove(mesh1);
 			},1000);
+			//Sjekk om mesh allerede er truffet
+			if (!mesh.hit){
+				score.total += mesh.points;
+				mesh.hit = true;
+			}
 		}
 
 	};

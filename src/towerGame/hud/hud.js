@@ -24,7 +24,7 @@ export async function updateHud(loader) {
 	document.getElementById("level").innerHTML = levelString;
 
 	// Update score
-	let scoreString = "Score: " + score;
+	let scoreString = "Score: " + score.total;
 	document.getElementById("score").innerHTML = scoreString;
 
 	//Update time

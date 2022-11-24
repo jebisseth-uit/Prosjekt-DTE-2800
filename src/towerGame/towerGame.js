@@ -31,7 +31,7 @@ import {TWEEN} from "three/addons/libs/tween.module.min";
 
 //Globale variabler:
 export let level = "Demo";
-export let score = 1234;
+export let score = {total: 0};
 export let time = "1:34";
 export let health = 45;
 
