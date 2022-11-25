@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import GUI from "lil-gui";
-import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
+import {applyImpulse, applyRotation, applyVelocity, moveRigidBody} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/enemies/ball.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
@@ -142,24 +142,19 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 
 
 	if (g_currentlyPressedKeys['KeyA']) {	//A
-		player.rotation.y = 0.2;
-		moveDirection.left = 0;
+		//player.rotation.y = 0.2;
+		applyRotation(player.userData.physicsBody,{x:0,y:-2,z:0})
 	}
 	if (g_currentlyPressedKeys['KeyD']) {	//D
-		player.rotation.y = -0.2;
-		console.log(player.rotation.y)
-		moveDirection.right = 0;
+		//player.rotation.y = -0.2;
+		applyRotation(player.userData.physicsBody,{x:0,y:2,z:0})
 	}
 	if (g_currentlyPressedKeys['KeyW']) {	//W
-		moveDirection.forward = 1;
+		applyVelocity(player.userData.physicsBody,{x:0,y:0,z:10})
 	}
 	if (g_currentlyPressedKeys['KeyS']) {	//S
-		moveDirection.back = 1;
+		applyVelocity(player.userData.physicsBody,{x:0,y:0,z:-10})
 	}
-
-	let moveX =  moveDirection.right - moveDirection.left;
-	let moveZ =  moveDirection.back - moveDirection.forward;
-	let moveY =  0;
 
 	if (g_currentlyPressedKeys['KeyQ']) {
 		g_controls.reset();
@@ -186,15 +181,6 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 			projectile.inWorld = true;
 		}
 	}
-
-	if( moveX == 0 && moveY == 0 && moveZ == 0) return;
-
-	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ)
-	resultantImpulse.op_mul(playerSpeed);
-
-	let physicsBody = player.userData.physicsBody;
-	physicsBody.setLinearVelocity( resultantImpulse );
-
 }
 
 export function onWindowResize() {

@@ -11,6 +11,7 @@ import {
 } from "./myThreeHelper.js";
 
 import {
+	applyRotation,
 	createAmmoWorld,
 	updatePhysics
 } from "./myAmmoHelper.js";
@@ -42,8 +43,6 @@ const stats = new Stats();
 
 export let moveDirection;
 moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
-
-
 
 //STARTER!
 //Ammojs Initialization
@@ -88,6 +87,7 @@ export async function main() {
 }
 
 function handleKeyUp(event) {
+	const player = g_scene.getObjectByName("player");
 	g_currentlyPressedKeys[event.code] = false;
 	lastKey = "";
 	//console.log(lastKey);
@@ -105,6 +105,8 @@ function handleKeyUp(event) {
 
 		case 65: //LEFT
 			moveDirection.left = 0
+			applyRotation(player.userData.physicsBody,{x:0,y:0,z:0})
+
 			break;
 
 		case 68: //RIGHT
