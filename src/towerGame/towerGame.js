@@ -21,7 +21,6 @@ import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
 import {createBall} from "./shapes/player/player.js";
 
-
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
 
@@ -81,6 +80,8 @@ export async function main() {
 
 	// draw level
 	level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
+
+
 	// Klokke for animasjon
 	g_clock = new THREE.Clock();
 
@@ -133,10 +134,13 @@ function handleKeyUp(event) {
 function handleKeyDown(event) {
 	g_currentlyPressedKeys[event.code] = true
 }
+
 function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
 	// createSpheres(20);
 	createCube();
+	//createPlayer();
+	createBall();
 	//createPlayer();
 	createBall();
 	setTimeout(() => {
@@ -177,7 +181,6 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 
 	//Tegner scenen med gitt kamera:
 	renderScene();
-
 
 	stats.end();
 }
