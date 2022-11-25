@@ -21,15 +21,13 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0}) {
+export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0}, name= "sphere") {
 	const radius = 0.2*mass;
 
 	//THREE
 	let mesh = new THREE.Mesh(
 		new THREE.SphereGeometry(radius, 32, 32),
 		new THREE.MeshStandardMaterial({color: color}));
-	mesh.name = 'sphere';
-	mesh.points = 10;
 	mesh.hit = false;
 	mesh.material.transparent = true;
 	mesh.position.set(position.x, position.y, position.z);

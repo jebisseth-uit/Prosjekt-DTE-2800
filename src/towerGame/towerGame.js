@@ -46,8 +46,7 @@ const stats = new Stats();
 
 export let moveDirection;
 moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
-let objEnemy,objEnemy2,objEnemy3;
-export let levelNo=2;
+let objEnemy,objEnemy2;
 //STARTER!
 //Ammojs Initialization
 Ammo().then( async function( AmmoLib ) {
@@ -72,10 +71,8 @@ export async function main() {
 
 	// three/ammo-objekter:
 	addAmmoSceneObjects();
-	objEnemy  = loadEnemy('../../../model/dinusaur.glb',{x:0.2,y:0.2,z:0.2});
+	objEnemy  = loadEnemy('../../../model/horse.glb',{x:.5,y:.5,z:.5});
 	objEnemy2 = loadEnemy('../../../model/face.glb',{x:.1,y:.1,z:.1});
-	objEnemy3 = loadEnemy('../../../model/horse.glb',{x:.2,y:.2,z:.2});
-
 
 	// draw level
 	level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
@@ -98,7 +95,6 @@ function handleKeyUp(event) {
 	//console.log(lastKey);
 
 	let keyCode = event.keyCode;
-
 	switch(keyCode){
 		case 87: //FORWARD
 			moveDirection.forward = 0
@@ -119,6 +115,14 @@ function handleKeyUp(event) {
 		case 32: //Space: JUMP
 			break;
 	}
+	if(g_scene){
+		const player = g_scene.getObjectByName("player");
+		if(player){
+			let velocity = new Ammo.btVector3(0,0,0)
+			player.userData.physicsBody.setAngularVelocity(velocity);
+		}
+	}
+
 }
 
 function handleKeyDown(event) {
@@ -133,13 +137,12 @@ function addAmmoSceneObjects() {
 	setTimeout(() => {
 		console.log("objEnemy!!!!!",objEnemy);
 		
-		const faceEnemy  = new Enemy(objEnemy2,4,"face_enemy",5);
-		const dinusaur = new Enemy(objEnemy,4,"dinusaur",10);
-		const horseEnemy = new Enemy(objEnemy3,4,"horse",7);
+		const faceEnemy  = new Enemy(objEnemy2,4,"face_enemy");
+		const horseEnemy = new Enemy(objEnemy,4,"horse_enemy");
 		// createEnemy(objEnemy,2);
 		// createEnemy(objEnemy2,4);
 
-	}, 5000);
+	}, 2000);
 }
 
 function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {

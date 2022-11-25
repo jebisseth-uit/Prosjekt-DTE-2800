@@ -28,11 +28,10 @@ const randomInt=(min,max)=>{
   }
   const enemat = new THREE.MeshStandardMaterial("enemat");
  export default class Enemy{
-    constructor(enemy_mesh,eneyno,enemy_type,speed){
+    constructor(enemy_mesh,eneyno,enemy_type){
         this.enemyObj=[];     
         this.isDie=[];
         this.enemyType = enemy_type;
-        this.speed = speed;
         this.create(enemy_mesh,eneyno);
     }
     create(enemy_mesh,eneyno){
@@ -58,9 +57,7 @@ const randomInt=(min,max)=>{
             this.enemyObj[i].position.set(x,2,z);
             const mass = 10;
             const position={x:x, y:this.enemyObj[i].position.y,z:z};
-
-            console.log(this.enemyObj[i].scale);
-            const shape     = new Ammo.btBoxShape( new Ammo.btVector3(.5,.5,.5));
+            const shape     = new Ammo.btBoxShape( new Ammo.btVector3(1.25,2.5,1.25));
             shape.setMargin( 0.05 );
             const rigidBody = createAmmoRigidBody(shape,this.enemyObj[i], 0.2,.2,position,mass);
             this.enemyObj[i].userData.physicsBody = rigidBody;
@@ -76,7 +73,6 @@ const randomInt=(min,max)=>{
         this.reset();
         this.updateEnemy();
     }
-
     reset(){
         for(let i=0;i<this.enemyObj.length;i++){
             this.isDie[i] = false;
@@ -91,7 +87,7 @@ const randomInt=(min,max)=>{
             for(let i=0;i<this.enemyObj.length;i++){
             if(!this.enemyObj[i].userData.physicsBody)
                 return;
-                //let scalingFactor = 10;
+                let scalingFactor = 10;
                 const random = randomInt(0,3);
                 let z=0,x=0;
                     switch(random){
@@ -114,7 +110,7 @@ const randomInt=(min,max)=>{
                 const vx  =  Math.sin(_ang);
                 const vz  =  Math.cos(_ang);
                 let velocity = new Ammo.btVector3( vx, 0, vz )
-                velocity.op_mul(this.speed);
+                velocity.op_mul(scalingFactor);
                 let physicsBody = this.enemyObj[i].userData.physicsBody;
                 physicsBody.setLinearVelocity(velocity);
                 this.checkPoints(player.position,this.enemyObj[i].position,i);
@@ -123,7 +119,7 @@ const randomInt=(min,max)=>{
     }
     checkPoints(a,b,i){
         let d = Number(a.distanceTo( b ));
-        if(d<=3 && !this.isDie[i]){
+        if(d<=7 && !this.isDie[i]){
             this.enemyObj[i].visible = false;
             this.isDie[i] = true;
             points++;
