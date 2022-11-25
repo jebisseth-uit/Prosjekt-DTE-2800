@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import GUI from "lil-gui";
 import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
-import {createRandomSpheres} from "./shapes/enemies/ball.js";
+import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
 import {createProjectile} from "./shapes/player/projectile.js";

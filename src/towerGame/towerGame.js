@@ -21,6 +21,7 @@ import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
 import {createBall} from "./shapes/player/player.js";
 
+
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
 
@@ -33,7 +34,8 @@ import {loadEnemy} from './MyEnemy';
 import Enemy from './createEnemy';
 
 //Globale variabler:
-export let level = "Demo";
+// export let level = "Demo";
+
 export let score = {total: 0};
 export let time = "1:34";
 export let health = 45;
@@ -46,7 +48,9 @@ const stats = new Stats();
 
 export let moveDirection;
 moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
-let objEnemy,objEnemy2;
+// let objEnemy,objEnemy2;
+let objEnemy,objEnemy2,objEnemy3;
+export let levelNo=1;
 //STARTER!
 //Ammojs Initialization
 Ammo().then( async function( AmmoLib ) {
@@ -73,6 +77,7 @@ export async function main() {
 	addAmmoSceneObjects();
 	objEnemy  = loadEnemy('../../../model/horse.glb',{x:.5,y:.5,z:.5});
 	objEnemy2 = loadEnemy('../../../model/face.glb',{x:.1,y:.1,z:.1});
+	objEnemy3 = loadEnemy('../../../model/horse.glb',{x:.2,y:.2,z:.2});
 
 	// draw level
 	level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
@@ -135,12 +140,11 @@ function addAmmoSceneObjects() {
 	//createPlayer();
 	createBall();
 	setTimeout(() => {
-		console.log("objEnemy!!!!!",objEnemy);
-		
-		const faceEnemy  = new Enemy(objEnemy2,4,"face_enemy");
-		const horseEnemy = new Enemy(objEnemy,4,"horse_enemy");
-		// createEnemy(objEnemy,2);
-		// createEnemy(objEnemy2,4);
+
+
+		const faceEnemy  = new Enemy(objEnemy2,4,"face_enemy",5);
+		const dinusaur = new Enemy(objEnemy,4,"dinusaur",10);
+		const horseEnemy = new Enemy(objEnemy3,4,"horse",7);
 
 	}, 2000);
 }
@@ -163,7 +167,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	handleKeys(deltaTime, g_currentlyPressedKeys);
 
 	//Oppdater HUD
-	///updateHud();
+	updateHud();
 
 	// Oppdaterer kamera til å se mot spiller
 	//const player = g_scene.getObjectByName("player");
