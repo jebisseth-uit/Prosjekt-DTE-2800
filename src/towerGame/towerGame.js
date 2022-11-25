@@ -21,6 +21,7 @@ import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
 import {createBall} from "./shapes/player/player.js";
 
+
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
 
@@ -33,7 +34,7 @@ import {loadEnemy} from './MyEnemy';
 import Enemy from './createEnemy';
 
 //Globale variabler:
-// export let level = "Demo";
+export let level = "Demo";
 
 export let score = {total: 0};
 export let time = "1:34";
@@ -49,7 +50,7 @@ export let moveDirection;
 moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
 // let objEnemy,objEnemy2;
 let objEnemy,objEnemy2,objEnemy3;
-export let levelNo=1;
+export let levelNo=0;
 //STARTER!
 //Ammojs Initialization
 Ammo().then( async function( AmmoLib ) {
@@ -80,8 +81,6 @@ export async function main() {
 
 	// draw level
 	level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
-
-
 	// Klokke for animasjon
 	g_clock = new THREE.Clock();
 
@@ -134,13 +133,10 @@ function handleKeyUp(event) {
 function handleKeyDown(event) {
 	g_currentlyPressedKeys[event.code] = true
 }
-
 function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
 	// createSpheres(20);
 	createCube();
-	//createPlayer();
-	createBall();
 	//createPlayer();
 	createBall();
 	setTimeout(() => {
@@ -181,6 +177,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 
 	//Tegner scenen med gitt kamera:
 	renderScene();
+
 
 	stats.end();
 }
