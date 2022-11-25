@@ -27,12 +27,15 @@ function randomInt(min,max){
   const radianToDegrees = (radians)=> {
       return radians * 180 / Math.PI;
   }
+
 const createEnemy = (enemy_mesh,eneyno) => {
-    enemyObj.length = eneyno;
-    isDie.length = eneyno;
+    //enemyObj.length = eneyno;
+    //isDie.length = eneyno;
     const enemat = new THREE.MeshStandardMaterial("enemat");
-    for(let i=0;i<enemyObj.length;i++){
-        enemyObj[i] = enemy_mesh.clone();
+    for(let i=0;i<eneyno;i++){
+        //enemyObj[i] = enemy_mesh.clone();
+        enemyObj.push(enemy_mesh.clone());
+        isDie.length = enemyObj.length;
         enemyObj[i].traverse( function (node){
             if(node.isMesh){
                 if(i>0){    
@@ -64,13 +67,22 @@ const createEnemy = (enemy_mesh,eneyno) => {
         rigidBody.threeMesh = enemyObj[i];
         addMeshToScene(enemyObj[i]);
     }
+
+    console.log(enemyObj.length);
     reset();
+
     updateEnemy();
 }
 const updateEnemy=()=>{
     setInterval(() => {
         const player = g_scene.getObjectByName("player");
         for(let i=0;i<enemyObj.length;i++){
+
+                console.log(enemyObj.length,"3333333333333333333    "+i);
+                if(!enemyObj[i].userData.physicsBody)
+                   return;
+
+            console.log(enemyObj.length,"###################################  "+i);
                 let scalingFactor = 10;
                 const random = randomInt(0,3);
                 let z=0,x=0;
@@ -93,10 +105,10 @@ const updateEnemy=()=>{
                 let _ang = GetAngle(aa,bb);
                 const vx  =  Math.sin(_ang);
                 const vz  =  Math.cos(_ang);
-                let resultantImpulse = new Ammo.btVector3( vx, 0, vz )
-                resultantImpulse.op_mul(scalingFactor);
+                let velocity = new Ammo.btVector3( vx, 0, vz )
+                velocity.op_mul(scalingFactor);
                 let physicsBody = enemyObj[i].userData.physicsBody;
-                physicsBody.setLinearVelocity(resultantImpulse);
+                physicsBody.setLinearVelocity(velocity);
                 checkPoints(player.position,enemyObj[i].position,i);
                 
         }

@@ -47,7 +47,7 @@ const stats = new Stats();
 export let moveDirection;
 moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
 
-
+let objEnemy,objEnemy2,objEnemy3;
 
 //STARTER!
 //Ammojs Initialization
@@ -74,7 +74,11 @@ export async function main() {
 	// three/ammo-objekter:
 	addAmmoSceneObjects();
 
-    loadEnemy();
+	objEnemy= loadEnemy('../../../model/horse.glb',{x:.5,y:.5,z:.5});
+
+	objEnemy2= loadEnemy('../../../model/face.glb',{x:.1,y:.1,z:.1});
+
+
 	
 	
 	// draw level
@@ -133,7 +137,10 @@ function addAmmoSceneObjects() {
 	//createPlayer();
 	createBall();
 	setTimeout(() => {
-		createEnemy(enemyMesh,8);	
+		console.log("objEnemy!!!!!",objEnemy);
+		createEnemy(objEnemy,2);
+		createEnemy(objEnemy2,4);
+
 	}, 2000);
 }
 
@@ -155,7 +162,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 	handleKeys(deltaTime, g_currentlyPressedKeys);
 
 	//Oppdater HUD
-	updateHud();
+	///updateHud();
 
 	// Oppdaterer kamera til å se mot spiller
 	//const player = g_scene.getObjectByName("player");
