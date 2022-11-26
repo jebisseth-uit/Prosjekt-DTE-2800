@@ -49,6 +49,7 @@ const stats = new Stats();
 export let moveDirection;
 moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
 // let objEnemy,objEnemy2;
+import {FACE_ENEMY,HORSE_ENEMY,DIANAUSER_ENEMY} from "./createEnemy";
 let objEnemy,objEnemy2,objEnemy3;
 export let levelNo=0;
 //STARTER!
@@ -142,9 +143,9 @@ function addAmmoSceneObjects() {
 	setTimeout(() => {
 
 
-		const faceEnemy  = new Enemy(objEnemy2,4,"face_enemy",5);
-		const dinusaur = new Enemy(objEnemy,4,"dinusaur",10);
-		const horseEnemy = new Enemy(objEnemy3,4,"horse",7);
+		const faceEnemy  = new Enemy(objEnemy2,4,FACE_ENEMY,5);
+		const dinusaur = new Enemy(objEnemy,4,DIANAUSER_ENEMY,10);
+		const horseEnemy = new Enemy(objEnemy3,4,HORSE_ENEMY,7);
 
 	}, 2000);
 }

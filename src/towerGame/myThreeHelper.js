@@ -47,8 +47,6 @@ export function createThreeScene() {
 	g_controls.addEventListener( 'change', renderScene);
 }
 
-
-
 export function addLights() {
 	// Ambient:
 	let ambientLight1 = new THREE.AmbientLight(0xffffff, 0.7);

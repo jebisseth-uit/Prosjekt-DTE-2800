@@ -5,9 +5,13 @@ let g_xzPlaneSideLength=100;
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
-const COLLISION_GROUP_BOX = 8;     
+const COLLISION_GROUP_BOX = 8;
+
+export const FACE_ENEMY=0,HORSE_ENEMY=1,DIANAUSER_ENEMY=3;
 let points=0;
 let currentScoreIndex = -2;
+
+
 const randomInt=(min,max)=>{
     let no =Math.floor(min+Math.random()*max); 
     return no;
@@ -20,12 +24,6 @@ const randomInt=(min,max)=>{
       else
         return Math.atan(e/d) + Math.PI;
   }
-  const degreeToRadians = (degrees)=> {
-      return degrees * Math.PI / 180;
-  }
-  const radianToDegrees = (radians)=> {
-      return radians * 180 / Math.PI;
-  }
   const enemat = new THREE.MeshStandardMaterial("enemat");
  export default class Enemy{
     constructor(enemy_mesh,eneyno,enemy_type){
@@ -34,23 +32,26 @@ const randomInt=(min,max)=>{
         this.enemyType = enemy_type;
         this.create(enemy_mesh,eneyno);
     }
+
     create(enemy_mesh,eneyno){
         for(let i=0;i<eneyno;i++){
-            this.enemyObj[i] = enemy_mesh.clone();
+          //this.enemyObj[i] = enemy_mesh.clone();
             this.enemyObj.push(enemy_mesh.clone());
             this.isDie.length = this.enemyObj.length;
-            this.enemyObj[i].traverse((node)=>{
-                if(node.isMesh && this.enemyType === "face_enemy"){
-                    if(i>0){    
-                        const mat = enemat.clone("ene_mat");     
-                        mat.color =  new THREE.Color(Math.random(0,1),Math.random(0,1),Math.random(0,1));
-                        node.material = mat;
-                    }
-                    else{
-                        enemat.color =  new THREE.Color(Math.random(0,1),Math.random(0,1),Math.random(0,1));
-                        node.material = enemat;
-                    }
-                }
+            this.enemyObj[i].traverse((child)=>{
+                 if(child.isMesh){
+                     switch (this.enemyType){
+                         case FACE_ENEMY:
+                             const mat = enemat.clone("ene_mat");
+                             mat.color =  new THREE.Color(Math.random(0,1),Math.random(0,1),Math.random(0,1));
+                             child.material = mat;
+                             break;
+                         case HORSE_ENEMY:
+                             break
+                         case DIANAUSER_ENEMY:
+                             break;
+                     }
+                 }
             });
             const x = -(g_xzPlaneSideLength/2) + Math.random() * g_xzPlaneSideLength;
             const z = -(g_xzPlaneSideLength/2) + Math.random() * g_xzPlaneSideLength;
