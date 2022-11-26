@@ -33,9 +33,10 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 	mesh.position.set(position.x, position.y, position.z);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
+	mesh.name = "sphere"
 	mesh.collisionResponse = (mesh1, mesh2) => {
 		// mesh1 = this object, mesh2 = colliding object
-		if (mesh2.name === "player"){
+		if (mesh2.name === "projectile"){
 			//mesh1.material.color.setHex(Math.random() * 0xffffff);
 			impactSound.play();
 			new TWEEN.Tween( mesh1.material ).to( { opacity: 0 }, 1000 ).start();

@@ -177,7 +177,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 			player.getWorldDirection(playerWorldDir)
 			createProjectile(1, {x:playerWorldPos.x + moveX, y:playerWorldPos.y, z:playerWorldPos.z + moveZ} )
 			projectile = g_scene.getObjectByName("projectile");
-			applyImpulse(projectile.userData.physicsBody, 60, {x:moveX, y:0.2, z:moveZ});
+			applyImpulse(projectile.userData.physicsBody, 60, {x:moveX, y:0, z:moveZ});
 			projectile.inWorld = true;
 		}
 	}
