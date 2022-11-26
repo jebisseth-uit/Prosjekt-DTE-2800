@@ -8,7 +8,7 @@ export async function updateHud(loader) {
 
 	let hud = new THREE.Group;
 	hud.name = "hud";
-	
+
 	let heart = setHealthImage(health);
 
 	// Update heart
@@ -32,45 +32,40 @@ export async function updateHud(loader) {
 	document.getElementById("time").innerHTML = timeString;
 
 	/**
-	//console.log(health);
-	//console.log(heart);
-	// Health heart image
-	const healthSprite = await loader.loadAsync('../../../assets/sprites/health/heart_' + heart + '.png');
-	let healthSpriteMaterial = new THREE.SpriteMaterial( { map: healthSprite, color: 0xffffff } );
-	let healthBar = new THREE.Sprite( healthSpriteMaterial );
-	healthBar.name = "healthbar";
-	healthBar.scale.set(2,2,2);
-	hud.add( healthBar );
-
-	// Health percent
-	let healthPstSprite = makeTextSprite( health + "%",
-		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
-	healthPstSprite.position.set(1.35,-0.92,0.1);
-	healthPstSprite.scale.set(3,3,3);
-	hud.add(healthPstSprite)
-
-	// Level text
-	let levelName = makeTextSprite( "Level: " + level,
-		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
-	levelName.position.set(g_scene.position.x + 2.5,g_scene.position.y - 0.4,0);
-	levelName.scale.set(3,3,3);
-	hud.add(levelName)
-
-	// Score text
-	let scoreSprite = makeTextSprite( "Score: " + score ,
-		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
-	scoreSprite.position.set(g_scene.position.x + 2.5,g_scene.position.y - 1.1,0);
-	scoreSprite.scale.set(3,3,3);
-	hud.add(scoreSprite)
-
-	// Time text
-	let timeSprite = makeTextSprite( "Time:  " + time,
-		{ fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
-	timeSprite.position.set(g_scene.position.x + 2.5,g_scene.position.y - 1.8,0);
-	timeSprite.scale.set(3,3,3);
-	hud.add(timeSprite)
-
-	g_scene.add( hud );**/
+	 //console.log(health);
+	 //console.log(heart);
+	 // Health heart image
+	 const healthSprite = await loader.loadAsync('../../../assets/sprites/health/heart_' + heart + '.png');
+	 let healthSpriteMaterial = new THREE.SpriteMaterial( { map: healthSprite, color: 0xffffff } );
+	 let healthBar = new THREE.Sprite( healthSpriteMaterial );
+	 healthBar.name = "healthbar";
+	 healthBar.scale.set(2,2,2);
+	 hud.add( healthBar );
+	 // Health percent
+	 let healthPstSprite = makeTextSprite( health + "%",
+	 { fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
+	 healthPstSprite.position.set(1.35,-0.92,0.1);
+	 healthPstSprite.scale.set(3,3,3);
+	 hud.add(healthPstSprite)
+	 // Level text
+	 let levelName = makeTextSprite( "Level: " + level,
+	 { fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
+	 levelName.position.set(g_scene.position.x + 2.5,g_scene.position.y - 0.4,0);
+	 levelName.scale.set(3,3,3);
+	 hud.add(levelName)
+	 // Score text
+	 let scoreSprite = makeTextSprite( "Score: " + score ,
+	 { fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
+	 scoreSprite.position.set(g_scene.position.x + 2.5,g_scene.position.y - 1.1,0);
+	 scoreSprite.scale.set(3,3,3);
+	 hud.add(scoreSprite)
+	 // Time text
+	 let timeSprite = makeTextSprite( "Time:  " + time,
+	 { fontsize: 30, textColor: {r:0, g:0, b:0, a:1.0}} );
+	 timeSprite.position.set(g_scene.position.x + 2.5,g_scene.position.y - 1.8,0);
+	 timeSprite.scale.set(3,3,3);
+	 hud.add(timeSprite)
+	 g_scene.add( hud );**/
 }
 
 function setHealthImage(health){

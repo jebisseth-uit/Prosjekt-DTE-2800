@@ -161,6 +161,10 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 		}
 	}
 
+	let moveX =  moveDirection.right - moveDirection.left;
+	let moveZ =  moveDirection.back - moveDirection.forward;
+	let moveY =  0;
+
 	if (g_currentlyPressedKeys['KeyQ']) {
 		g_controls.reset();
 	}

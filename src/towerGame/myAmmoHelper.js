@@ -148,6 +148,12 @@ export function applyImpulse(rigidBody, force=IMPULSE_FORCE, direction = {x:0, y
 	rigidBody.applyCentralImpulse(impulseVector);
 }
 
+export const removeBody = (rigidBody)=>{
+	delete rigidBody.getMotionState();
+	delete rigidBody.getCollisionShape();
+	g_ammoPhysicsWorld.removeRigidBody(rigidBody);
+}
+
 export function applyVelocity(rigidBody, direction = {x:0, y:1, z:0}) {
 	if (!rigidBody)
 		return;

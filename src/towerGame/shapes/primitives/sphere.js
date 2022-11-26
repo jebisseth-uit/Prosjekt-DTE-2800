@@ -30,6 +30,8 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 		new THREE.MeshStandardMaterial({color: color}));
 	mesh.hit = false;
 	mesh.material.transparent = true;
+	mesh.name = 'sphere';
+	mesh.points = 10;
 	mesh.position.set(position.x, position.y, position.z);
 	mesh.castShadow = true;
 	mesh.points = 10;

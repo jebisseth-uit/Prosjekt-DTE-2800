@@ -22,6 +22,7 @@ import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
 import {createBall} from "./shapes/player/player.js";
 
+
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
 
@@ -30,8 +31,12 @@ import {updateHud} from "./hud/hud.js";
 import {Tween} from "@tweenjs/tween.js";
 import {TWEEN} from "three/addons/libs/tween.module.min";
 
+import {loadEnemy} from './MyEnemy';
+import Enemy from './createEnemy';
+
 //Globale variabler:
 export let level = "Demo";
+
 export let score = {total: 0};
 export let time = "1:34";
 export let health = 45;
@@ -45,9 +50,10 @@ const stats = new Stats();
 
 export let moveDirection;
 moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
-
-
-
+// let objEnemy,objEnemy2;
+import {FACE_ENEMY,HORSE_ENEMY,DIANAUSER_ENEMY} from "./createEnemy";
+let objEnemy,objEnemy2,objEnemy3;
+export let levelNo=0;
 //STARTER!
 //Ammojs Initialization
 Ammo().then( async function( AmmoLib ) {
@@ -72,11 +78,12 @@ export async function main() {
 
 	// three/ammo-objekter:
 	addAmmoSceneObjects();
+	objEnemy  = loadEnemy('../../../model/horse.glb',{x:.5,y:.5,z:.5});
+	objEnemy2 = loadEnemy('../../../model/face.glb',{x:.1,y:.1,z:.1});
+	objEnemy3 = loadEnemy('../../../model/horse.glb',{x:.2,y:.2,z:.2});
 
 	// draw level
 	level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
-
-
 	// Klokke for animasjon
 	g_clock = new THREE.Clock();
 
@@ -97,7 +104,6 @@ function handleKeyUp(event) {
 	//console.log(lastKey);
 
 	let keyCode = event.keyCode;
-
 	switch(keyCode){
 		case 87: //FORWARD
 			moveDirection.forward = 0
@@ -124,19 +130,33 @@ function handleKeyUp(event) {
 			jumpCount.count = 0;
 			break;
 	}
+	if(g_scene){
+		const player = g_scene.getObjectByName("player");
+		if(player){
+			let velocity = new Ammo.btVector3(0,0,0)
+			player.userData.physicsBody.setAngularVelocity(velocity);
+		}
+	}
+
 }
 
 function handleKeyDown(event) {
 	g_currentlyPressedKeys[event.code] = true
-
 }
-
 function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
-	createSpheres(20);
+	// createSpheres(20);
 	createCube();
 	//createPlayer();
 	createBall();
+	setTimeout(() => {
+
+
+		const faceEnemy  = new Enemy(objEnemy2,4,FACE_ENEMY,5);
+		const dinusaur = new Enemy(objEnemy,4,DIANAUSER_ENEMY,10);
+		const horseEnemy = new Enemy(objEnemy3,4,HORSE_ENEMY,7);
+
+	}, 2000);
 }
 
 function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
