@@ -125,8 +125,6 @@ export function addLights() {
 	directionalFolder.addColor(directionalLight, 'color').name("Color");
 }
 
-const axesHelper = new THREE.AxesHelper( 5 );
-
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
 
@@ -137,7 +135,6 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	}
 
 	const player = g_scene.getObjectByName("player");
-	player.add( axesHelper );
 	const playerSpeed = player.playerSpeed;
 	const playerWorldPos = new THREE.Vector3();
 	const playerWorldDir = new THREE.Vector3();
