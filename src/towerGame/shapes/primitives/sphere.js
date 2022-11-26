@@ -32,6 +32,7 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 	mesh.material.transparent = true;
 	mesh.position.set(position.x, position.y, position.z);
 	mesh.castShadow = true;
+	mesh.points = 10;
 	mesh.receiveShadow = true;
 	mesh.name = "sphere"
 	mesh.collisionResponse = (mesh1, mesh2) => {
