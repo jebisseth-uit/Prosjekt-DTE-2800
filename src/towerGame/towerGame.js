@@ -42,7 +42,7 @@ const XZPLANE_SIDELENGTH = 100;
 const stats = new Stats();
 
 export let moveDirection;
-moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
+moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0, jump: 0 }
 
 
 
@@ -113,6 +113,7 @@ function handleKeyUp(event) {
 			break;
 
 		case 32: //Space: JUMP
+			moveDirection.jump = -1;
 			break;
 	}
 }

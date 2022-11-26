@@ -125,6 +125,8 @@ export function addLights() {
 
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
+	let jump
+	let jumpPerformed = false
 
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
@@ -134,43 +136,45 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	const playerSpeed = player.playerSpeed;
 	const playerJumpForce = player.playerJumpForce;
 
-	if (g_currentlyPressedKeys['KeyA']) {	//A
-		moveDirection.left = 1;
-	}
-	if (g_currentlyPressedKeys['KeyD']) {	//D
-		moveDirection.right = 1;
-	}
-	if (g_currentlyPressedKeys['KeyW']) {	//W
-		moveDirection.forward = 1;
-	}
-	if (g_currentlyPressedKeys['KeyS']) {	//S
-		moveDirection.back = 1;
-	}
+	if (lastKey.key !== "jump"){
+		if (g_currentlyPressedKeys['KeyA']) {	//A
+			moveDirection.left = 1;
+		}
+		if (g_currentlyPressedKeys['KeyD']) {	//D
+			moveDirection.right = 1;
+		}
+		if (g_currentlyPressedKeys['KeyW']) {	//W
+			moveDirection.forward = 1;
+		}
+		if (g_currentlyPressedKeys['KeyS']) {	//S
+			moveDirection.back = 1;
 
-	let moveX =  moveDirection.right - moveDirection.left;
-	let moveZ =  moveDirection.back - moveDirection.forward;
-	let moveY =  0;
-
-	if (g_currentlyPressedKeys['KeyQ']) {
-		g_controls.reset();
-	}
-
-	if (g_currentlyPressedKeys['KeyM']) {	//Space
-		if (lastKey.key !== "jump"){
-			applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
+		}
+		if (g_currentlyPressedKeys['Space']) {	//Space
+			moveDirection.jump = 1;
+			console.log(player.userData.physicsBody.getLinearVelocity())
+			//applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
 			lastKey.key = "jump";
-		} else {
-			//lastKey.key = "nojump"
 		}
 	}
+
+		let moveX =  moveDirection.right - moveDirection.left;
+		let moveZ =  moveDirection.back - moveDirection.forward;
+		let moveY =  moveDirection.jump;
+
+		if (g_currentlyPressedKeys['KeyQ']) {
+			g_controls.reset();
+		}
+
 
 	if( moveX == 0 && moveY == 0 && moveZ == 0) return;
 
 	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
 	resultantImpulse.op_mul(playerSpeed);
 
+	console.log(resultantImpulse)
 	let physicsBody = player.userData.physicsBody;
-	physicsBody.setLinearVelocity( resultantImpulse );
+	physicsBody.setLinearVelocity(resultantImpulse)
 
 }
 
