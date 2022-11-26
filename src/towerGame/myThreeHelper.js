@@ -139,7 +139,8 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	const player = g_scene.getObjectByName("player");
 	player.add( axesHelper );
 	const playerSpeed = player.playerSpeed;
-	const playerJumpForce = player.playerJumpForce;
+	const playerWorldPos = new THREE.Vector3();
+	const playerWorldDir = new THREE.Vector3();
 
 	if (lastKey.key !== "jump"){
 		if (g_currentlyPressedKeys['KeyA']) {	//A
@@ -153,7 +154,6 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 		}
 		if (g_currentlyPressedKeys['KeyS']) {	//S
 			moveDirection.back = 1;
-
 		}
 		if (g_currentlyPressedKeys['Space']) {	//Space
 			moveDirection.jump = 1;
@@ -161,20 +161,24 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 		}
 	}
 
-		let moveX =  moveDirection.right - moveDirection.left;
-		let moveZ =  moveDirection.back - moveDirection.forward;
-		let moveY =  moveDirection.jump;
+	if (g_currentlyPressedKeys['KeyQ']) {
+		g_controls.reset();
+	}
 
-		if (g_currentlyPressedKeys['KeyQ']) {
-			g_controls.reset();
-		}
+	let moveX =  moveDirection.right - moveDirection.left;
+	let moveZ =  moveDirection.back - moveDirection.forward;
+	let moveY =  moveDirection.jump;
 
-	if (g_currentlyPressedKeys['KeyM']) {	//Space
-		if (lastKey.key !== "jump"){
-			applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
-			lastKey.key = "jump";
-		} else {
-			//lastKey.key = "nojump"
+	if (g_currentlyPressedKeys['KeyN']) {	//Space
+		let projectile;
+		if (!g_scene.getObjectByName("projectile")){
+			// Get world posistion of player for spawning projectile
+			player.getWorldPosition(playerWorldPos)
+			player.getWorldDirection(playerWorldDir)
+			createProjectile(1, {x:playerWorldPos.x + moveX, y:playerWorldPos.y, z:playerWorldPos.z + moveZ} )
+			projectile = g_scene.getObjectByName("projectile");
+			applyImpulse(projectile.userData.physicsBody, 60, {x:moveX, y:0.2, z:moveZ});
+			projectile.inWorld = true;
 		}
 	}
 
@@ -186,18 +190,6 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	let physicsBody = player.userData.physicsBody;
 	physicsBody.setLinearVelocity(resultantImpulse)
 
-	if (g_currentlyPressedKeys['KeyN']) {	//Space
-		let projectile;
-		if (!g_scene.getObjectByName("projectile")){
-			// Get world posistion of player for spawning projectile
-			player.getWorldPosition(playerWorldPos)
-			player.getWorldDirection(playerWorldDir)
-			createProjectile(1, {x:playerWorldPos.x, y:playerWorldPos.y, z:playerWorldPos.z} )
-			projectile = g_scene.getObjectByName("projectile");
-			applyImpulse(projectile.userData.physicsBody, 30, {x:playerWorldDir.x, y:0.2, z:playerWorldDir.z});
-			projectile.inWorld = true;
-		}
-	}
 }
 
 export function onWindowResize() {
