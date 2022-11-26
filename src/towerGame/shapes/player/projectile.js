@@ -19,7 +19,7 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export function createProjectile(mass = 1, position={x:0, y:0, z:0}, radius = 0.2, firePower = 10, color = 0x000000) {
+export function createProjectile(mass = 1, position={x:0, y:0, z:0}, radius = 0.3, firePower = 10, color = 0x000000) {
 
 	//THREE
 	let mesh = new THREE.Mesh(
@@ -31,9 +31,10 @@ export function createProjectile(mass = 1, position={x:0, y:0, z:0}, radius = 0.
 	mesh.receiveShadow = true;
 	mesh.collisionResponse = (mesh1, mesh2) => {
 		// mesh1 = this object, mesh2 = colliding object
-		setTimeout(function(){
-			g_scene.remove(mesh1);
-		},1500);
+		//setTimeout(function(){
+		//	g_scene.remove(mesh1);
+		//},1000);
+		g_scene.remove(mesh1)
 
 	};
 

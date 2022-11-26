@@ -5,6 +5,7 @@ import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
 import {createProjectile} from "./shapes/player/projectile.js";
+import {jumpCount} from "./towerGame.js";
 
 export let lastKey = {key: "Space"};
 
@@ -45,6 +46,42 @@ export function createThreeScene() {
 	// TrackballControls:
 	g_controls = new TrackballControls(g_camera, g_renderer.domElement);
 	g_controls.addEventListener( 'change', renderScene);
+
+
+	// Henter lydfiler fra :
+	// https://opengameart.org/content/4-chiptunes-adventure
+	// https://opengameart.org/content/heroic-demise-updated-version
+	// https://opengameart.org/content/zombies-sound-pack
+
+// create an AudioListener and add it to the camera
+	g_camera.add( listener );
+
+// create a global audio source
+	const backgroundSound = new THREE.Audio( listener );
+
+// Local audio sources:
+	const localSound2 = new THREE.PositionalAudio (listener);
+
+
+// load a sound and set it as the Audio object's buffer
+	const audioLoader = new THREE.AudioLoader();
+	audioLoader.load( "../../assets/Sound/Music/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg", function( buffer ) {
+		backgroundSound.setBuffer( buffer );
+		backgroundSound.setLoop( true );
+		backgroundSound.setVolume( 0.05 );
+		//backgroundSound.play();
+	});
+
+// load a sound and set it as the local Audio object's buffer
+	const audioLoader1 = new THREE.AudioLoader();
+	audioLoader1.load( "../../assets/Sound/SoundEffects/zombie-16.wav", function( buffer ) {
+		localSound2.setBuffer( buffer );
+		localSound2.setLoop( true );
+		localSound2.setVolume( 1 );
+		//localSound2.play();
+		g_scene.getObjectByName('cube').add(localSound2)
+	});
+
 }
 
 export function addLights() {
@@ -93,33 +130,35 @@ const axesHelper = new THREE.AxesHelper( 5 );
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
 
+	let maxJump = 100;
+
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
 	}
+
 	const player = g_scene.getObjectByName("player");
 	player.add( axesHelper );
 	const playerSpeed = player.playerSpeed;
-	const playerJumpForce = player.playerJumpForce;
 	const playerWorldPos = new THREE.Vector3();
 	const playerWorldDir = new THREE.Vector3();
 
-
-	if (g_currentlyPressedKeys['KeyA']) {	//A
-		moveDirection.left = 0;
-		let velocity = new Ammo.btVector3( 0,-1,0)
-		player.userData.physicsBody.setAngularVelocity(velocity);
-	}
-	if (g_currentlyPressedKeys['KeyD']) {	//D
-		// player.rotation.y -= 0.2;
-		let velocity = new Ammo.btVector3( 0,1,0)
-		player.userData.physicsBody.setAngularVelocity(velocity);
-		moveDirection.right = 0;
-	}
-	if (g_currentlyPressedKeys['KeyW']) {	//W
-		moveDirection.forward = 1;
-	}
-	if (g_currentlyPressedKeys['KeyS']) {	//S
-		moveDirection.back = 1;
+	if (lastKey.key !== "jump"){
+		if (g_currentlyPressedKeys['KeyA']) {	//A
+			moveDirection.left = 1;
+		}
+		if (g_currentlyPressedKeys['KeyD']) {	//D
+			moveDirection.right = 1;
+		}
+		if (g_currentlyPressedKeys['KeyW']) {	//W
+			moveDirection.forward = 1;
+		}
+		if (g_currentlyPressedKeys['KeyS']) {	//S
+			moveDirection.back = 1;
+		}
+		if (g_currentlyPressedKeys['Space']) {	//Space
+			moveDirection.jump = 1;
+			lastKey.key = "jump";
+		}
 	}
 
 	let moveX =  moveDirection.right - moveDirection.left;
@@ -130,14 +169,9 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 		g_controls.reset();
 	}
 
-	if (g_currentlyPressedKeys['KeyM']) {	//Space
-		if (lastKey.key !== "jump"){
-			applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
-			lastKey.key = "jump";
-		} else {
-			//lastKey.key = "nojump"
-		}
-	}
+	let moveX =  moveDirection.right - moveDirection.left;
+	let moveZ =  moveDirection.back - moveDirection.forward;
+	let moveY =  moveDirection.jump;
 
 	if (g_currentlyPressedKeys['KeyN']) {	//Space
 		let projectile;
@@ -145,23 +179,22 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 			// Get world posistion of player for spawning projectile
 			player.getWorldPosition(playerWorldPos)
 			player.getWorldDirection(playerWorldDir)
-			createProjectile(1, {x:playerWorldPos.x, y:playerWorldPos.y, z:playerWorldPos.z} )
+			createProjectile(1, {x:playerWorldPos.x + moveX*2, y:playerWorldPos.y, z:playerWorldPos.z + moveZ*2} )
 			projectile = g_scene.getObjectByName("projectile");
-			applyImpulse(projectile.userData.physicsBody, 30, {x:playerWorldDir.x, y:0.2, z:playerWorldDir.z});
+			applyImpulse(projectile.userData.physicsBody, 60, {x:moveX, y:0.1, z:moveZ});
 			projectile.inWorld = true;
 		}
 	}
 
 	if( moveX == 0 && moveY == 0 && moveZ == 0) return;
 
-	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ)
+	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
 	resultantImpulse.op_mul(playerSpeed);
 
 	let physicsBody = player.userData.physicsBody;
-	physicsBody.setLinearVelocity( resultantImpulse );
+	physicsBody.setLinearVelocity(resultantImpulse)
 
 }
-
 
 export function onWindowResize() {
 	g_camera.aspect = window.innerWidth / window.innerHeight;
