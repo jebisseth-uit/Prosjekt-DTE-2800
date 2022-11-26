@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import {addMeshToScene,g_scene} from "./myThreeHelper.js";
-import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "./myAmmoHelper.js";
+import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies,removeBody} from "./myAmmoHelper.js";
 let g_xzPlaneSideLength=100;
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
@@ -74,14 +74,22 @@ const randomInt=(min,max)=>{
         this.reset();
         this.updateEnemy();
     }
-    reset(){
-        for(let i=0;i<this.enemyObj.length;i++){
-            this.isDie[i] = false;
-            this.enemyObj[i].visible = true;
-        }
-        currentScoreIndex++;
-        points=0;    
-    }
+     reset(){
+         for(let i=0;i<this.enemyObj.length;i++){
+             this.isDie[i] = false;
+             this.enemyObj[i].visible = true;
+             this.enemyObj[i].collisionResponse = (mesh1,mesh2) => {
+                 if(mesh2.name === "player"){
+                     const player = g_scene.getObjectByName("player");
+                     this.checkPoints(player.position,this.enemyObj[i].position,i);
+                 }
+
+             };
+         }
+         currentScoreIndex++;
+         points=0;
+     }
+
     updateEnemy(){
         setInterval(() => {
             const player = g_scene.getObjectByName("player");
@@ -89,7 +97,10 @@ const randomInt=(min,max)=>{
             if(!this.enemyObj[i].userData.physicsBody)
                 return;
                 let scalingFactor = 10;
-                const random = randomInt(0,3);
+                let random = randomInt(0,3);
+                const dis = Number(player.position.distanceTo(this.enemyObj[i]));
+                if(dis<150)
+                    random = 3;
                 let z=0,x=0;
                     switch(random){
                     case 0:
@@ -114,25 +125,32 @@ const randomInt=(min,max)=>{
                 velocity.op_mul(scalingFactor);
                 let physicsBody = this.enemyObj[i].userData.physicsBody;
                 physicsBody.setLinearVelocity(velocity);
-                this.checkPoints(player.position,this.enemyObj[i].position,i);
+               // this.checkPoints(player.position,this.enemyObj[i].position,i);
             }
-        }, 1000);
+        }, 2000);
     }
-    checkPoints(a,b,i){
-        let d = Number(a.distanceTo( b ));
-        if(d<=7 && !this.isDie[i]){
-            this.enemyObj[i].visible = false;
-            this.isDie[i] = true;
-            points++;
-            document.getElementById("gamescore").textContent = "Score: "+points;
-            const newScores = JSON.parse(localStorage.getItem("scores") || "[]");
-            if (currentScoreIndex === -1) {
-                currentScoreIndex = newScores.length;
-            }
-            newScores[currentScoreIndex] = points;
-            localStorage.setItem("scores", JSON.stringify(newScores));
-        }
-    }
+     checkPoints(a,b,i){
+         let d = Number(a.distanceTo( b ));
+         if(d<=7 && !this.isDie[i]){
+             this.enemyObj[i].visible = false;
+             this.isDie[i] = true;
+             if(g_rigidBodies[i] === this.enemyObj[i])
+                 g_rigidBodies.splice(i,1);
+             if(this.enemyObj[i].userData.physicsBody){
+                 removeBody(this.enemyObj[i].userData.physicsBody);
+                 console.log(this.enemyObj[i].userData.physicsBody.getMotionState());
+             }
+             points++;
+             document.getElementById("gamescore").textContent = "Score: "+points;
+             const newScores = JSON.parse(localStorage.getItem("scores") || "[]");
+             if (currentScoreIndex === -1) {
+                 currentScoreIndex = newScores.length;
+             }
+             newScores[currentScoreIndex] = points;
+             localStorage.setItem("scores", JSON.stringify(newScores));
+         }
+     }
+
  }
 
  

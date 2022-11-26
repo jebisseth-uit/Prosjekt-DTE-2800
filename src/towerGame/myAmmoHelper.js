@@ -147,3 +147,9 @@ export function applyImpulse(rigidBody, force=IMPULSE_FORCE, direction = {x:0, y
 	let impulseVector = new Ammo.btVector3(direction.x * force , direction.y * force , direction.z * force );
 	rigidBody.applyCentralImpulse(impulseVector);
 }
+
+export const removeBody = (rigidBody)=>{
+	delete rigidBody.getMotionState();
+	delete rigidBody.getCollisionShape();
+	g_ammoPhysicsWorld.removeRigidBody(rigidBody);
+}
