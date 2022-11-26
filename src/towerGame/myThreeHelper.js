@@ -4,6 +4,8 @@ import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
+import {createProjectile} from "./shapes/player/projectile.js";
+import {jumpCount} from "./towerGame.js";
 
 export let lastKey = {key: "Space"};
 
@@ -123,44 +125,60 @@ export function addLights() {
 	directionalFolder.addColor(directionalLight, 'color').name("Color");
 }
 
+const axesHelper = new THREE.AxesHelper( 5 );
+
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
+
+	let maxJump = 100;
 
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
 	}
 
 	const player = g_scene.getObjectByName("player");
+	player.add( axesHelper );
 	const playerSpeed = player.playerSpeed;
-	const playerJumpForce = player.playerJumpForce;
+	const playerWorldPos = new THREE.Vector3();
+	const playerWorldDir = new THREE.Vector3();
 
-	if (g_currentlyPressedKeys['KeyA']) {	//A
-		moveDirection.left = 1;
+	if (lastKey.key !== "jump"){
+		if (g_currentlyPressedKeys['KeyA']) {	//A
+			moveDirection.left = 1;
+		}
+		if (g_currentlyPressedKeys['KeyD']) {	//D
+			moveDirection.right = 1;
+		}
+		if (g_currentlyPressedKeys['KeyW']) {	//W
+			moveDirection.forward = 1;
+		}
+		if (g_currentlyPressedKeys['KeyS']) {	//S
+			moveDirection.back = 1;
+		}
+		if (g_currentlyPressedKeys['Space']) {	//Space
+			moveDirection.jump = 1;
+			lastKey.key = "jump";
+		}
 	}
-	if (g_currentlyPressedKeys['KeyD']) {	//D
-		moveDirection.right = 1;
-	}
-	if (g_currentlyPressedKeys['KeyW']) {	//W
-		moveDirection.forward = 1;
-	}
-	if (g_currentlyPressedKeys['KeyS']) {	//S
-		moveDirection.back = 1;
-	}
-
-	let moveX =  moveDirection.right - moveDirection.left;
-	let moveZ =  moveDirection.back - moveDirection.forward;
-	let moveY =  0;
 
 	if (g_currentlyPressedKeys['KeyQ']) {
 		g_controls.reset();
 	}
 
-	if (g_currentlyPressedKeys['KeyM']) {	//Space
-		if (lastKey.key !== "jump"){
-			applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
-			lastKey.key = "jump";
-		} else {
-			//lastKey.key = "nojump"
+	let moveX =  moveDirection.right - moveDirection.left;
+	let moveZ =  moveDirection.back - moveDirection.forward;
+	let moveY =  moveDirection.jump;
+
+	if (g_currentlyPressedKeys['KeyN']) {	//Space
+		let projectile;
+		if (!g_scene.getObjectByName("projectile")){
+			// Get world posistion of player for spawning projectile
+			player.getWorldPosition(playerWorldPos)
+			player.getWorldDirection(playerWorldDir)
+			createProjectile(1, {x:playerWorldPos.x + moveX*2, y:playerWorldPos.y, z:playerWorldPos.z + moveZ*2} )
+			projectile = g_scene.getObjectByName("projectile");
+			applyImpulse(projectile.userData.physicsBody, 60, {x:moveX, y:0.1, z:moveZ});
+			projectile.inWorld = true;
 		}
 	}
 
@@ -170,7 +188,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	resultantImpulse.op_mul(playerSpeed);
 
 	let physicsBody = player.userData.physicsBody;
-	physicsBody.setLinearVelocity( resultantImpulse );
+	physicsBody.setLinearVelocity(resultantImpulse)
 
 }
 

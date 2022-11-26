@@ -147,3 +147,19 @@ export function applyImpulse(rigidBody, force=IMPULSE_FORCE, direction = {x:0, y
 	let impulseVector = new Ammo.btVector3(direction.x * force , direction.y * force , direction.z * force );
 	rigidBody.applyCentralImpulse(impulseVector);
 }
+
+export function applyVelocity(rigidBody, direction = {x:0, y:1, z:0}) {
+	if (!rigidBody)
+		return;
+	rigidBody.activate(true);
+	let velocityVector = new Ammo.btVector3(direction.x, direction.y, direction.z);
+	rigidBody.setLinearVelocity(velocityVector);
+}
+
+export function applyRotation(rigidBody, direction = {x:0, y:1, z:0}) {
+	if (!rigidBody)
+		return;
+	rigidBody.activate(true);
+	let rotationVector = new Ammo.btVector3(direction.x, direction.y, direction.z);
+	rigidBody.setAngularVelocity(rotationVector)
+}

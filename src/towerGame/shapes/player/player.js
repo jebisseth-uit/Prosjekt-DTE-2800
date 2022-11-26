@@ -2,6 +2,7 @@ import * as THREE from "three";
 import {addMeshToScene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
 import {lastKey} from "../../myThreeHelper.js";
+import {moveDirection} from "../../towerGame.js";
 
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
@@ -81,6 +82,7 @@ export function createBall(){
 
 	player.collisionResponse = (mesh1) => {
 		lastKey.key = "nojump";
+		moveDirection.jump = 0;
 	};
 
 	//Ammojs Section
