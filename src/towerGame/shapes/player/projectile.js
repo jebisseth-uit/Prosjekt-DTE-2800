@@ -31,12 +31,10 @@ export function createProjectile(mass = 1, position={x:0, y:0, z:0}, radius = 0.
 	mesh.receiveShadow = true;
 	mesh.collisionResponse = (mesh1, mesh2) => {
 		// mesh1 = this object, mesh2 = colliding object
-		setTimeout(function(){
-			g_scene.remove(mesh1);
-		},1000);
-		if (mesh2.name === "sphere"){
-			g_scene.remove(mesh1)
-		}
+		//setTimeout(function(){
+		//	g_scene.remove(mesh1);
+		//},1000);
+		g_scene.remove(mesh1)
 
 	};
 

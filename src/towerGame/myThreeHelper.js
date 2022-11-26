@@ -175,9 +175,9 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 			// Get world posistion of player for spawning projectile
 			player.getWorldPosition(playerWorldPos)
 			player.getWorldDirection(playerWorldDir)
-			createProjectile(1, {x:playerWorldPos.x + moveX, y:playerWorldPos.y, z:playerWorldPos.z + moveZ} )
+			createProjectile(1, {x:playerWorldPos.x + moveX*2, y:playerWorldPos.y, z:playerWorldPos.z + moveZ*2} )
 			projectile = g_scene.getObjectByName("projectile");
-			applyImpulse(projectile.userData.physicsBody, 60, {x:moveX, y:0, z:moveZ});
+			applyImpulse(projectile.userData.physicsBody, 60, {x:moveX, y:0.1, z:moveZ});
 			projectile.inWorld = true;
 		}
 	}
