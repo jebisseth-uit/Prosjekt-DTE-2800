@@ -4,6 +4,7 @@ import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
+import {createProjectile} from "./shapes/player/projectile.js";
 
 export let lastKey = {key: "Space"};
 
@@ -45,6 +46,8 @@ export function createThreeScene() {
 	g_controls = new TrackballControls(g_camera, g_renderer.domElement);
 	g_controls.addEventListener( 'change', renderScene);
 }
+
+
 
 export function addLights() {
 	// Ambient:
@@ -91,6 +94,7 @@ const axesHelper = new THREE.AxesHelper( 5 );
 
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
+
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
 	}
@@ -100,8 +104,9 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	const playerJumpForce = player.playerJumpForce;
 	const playerWorldPos = new THREE.Vector3();
 	const playerWorldDir = new THREE.Vector3();
+
+
 	if (g_currentlyPressedKeys['KeyA']) {	//A
-		// player.rotation.y += 0.2;
 		moveDirection.left = 0;
 		let velocity = new Ammo.btVector3( 0,-1,0)
 		player.userData.physicsBody.setAngularVelocity(velocity);
@@ -158,6 +163,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	physicsBody.setLinearVelocity( resultantImpulse );
 
 }
+
 
 export function onWindowResize() {
 	g_camera.aspect = window.innerWidth / window.innerHeight;
