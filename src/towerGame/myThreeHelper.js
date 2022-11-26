@@ -4,6 +4,7 @@ import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
+import {jumpCount} from "./towerGame.js";
 
 export let lastKey = {key: "Space"};
 
@@ -125,8 +126,8 @@ export function addLights() {
 
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
-	let jump
-	let jumpPerformed = false
+
+	let maxJump = 100;
 
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
@@ -134,7 +135,6 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 
 	const player = g_scene.getObjectByName("player");
 	const playerSpeed = player.playerSpeed;
-	const playerJumpForce = player.playerJumpForce;
 
 	if (lastKey.key !== "jump"){
 		if (g_currentlyPressedKeys['KeyA']) {	//A
@@ -152,8 +152,6 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 		}
 		if (g_currentlyPressedKeys['Space']) {	//Space
 			moveDirection.jump = 1;
-			console.log(player.userData.physicsBody.getLinearVelocity())
-			//applyImpulse(player.userData.physicsBody, playerJumpForce, {x:0, y:1, z:0});
 			lastKey.key = "jump";
 		}
 	}
@@ -172,7 +170,6 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
 	resultantImpulse.op_mul(playerSpeed);
 
-	console.log(resultantImpulse)
 	let physicsBody = player.userData.physicsBody;
 	physicsBody.setLinearVelocity(resultantImpulse)
 

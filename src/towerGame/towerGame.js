@@ -34,6 +34,7 @@ export let level = "Demo";
 export let score = {total: 0};
 export let time = "1:34";
 export let health = 45;
+export let jumpCount = {count:0}
 
 let g_clock;
 export let lastKey;
@@ -98,29 +99,33 @@ function handleKeyUp(event) {
 	switch(keyCode){
 		case 87: //FORWARD
 			moveDirection.forward = 0
+			moveDirection.jump = -1;
 			break;
 
 		case 83: //BACK
 			moveDirection.back = 0
+			moveDirection.jump = -1;
 			break;
 
 		case 65: //LEFT
 			moveDirection.left = 0
+			moveDirection.jump = -1;
 			break;
 
 		case 68: //RIGHT
 			moveDirection.right = 0
+			moveDirection.jump = -1;
 			break;
 
 		case 32: //Space: JUMP
 			moveDirection.jump = -1;
+			jumpCount.count = 0;
 			break;
 	}
 }
 
 function handleKeyDown(event) {
 	g_currentlyPressedKeys[event.code] = true
-
 }
 
 function addAmmoSceneObjects() {
