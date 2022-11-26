@@ -9,7 +9,7 @@ const COLLISION_GROUP_BOX = 8;
 
 export const FACE_ENEMY=0,HORSE_ENEMY=1,DIANAUSER_ENEMY=3;
 let points=0;
-let currentScoreIndex = -2;
+let currentScoreIndex = -4;
 
 
 const randomInt=(min,max)=>{
