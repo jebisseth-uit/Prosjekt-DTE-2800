@@ -79,8 +79,8 @@ const randomInt=(min,max)=>{
              this.isDie[i] = false;
              this.enemyObj[i].visible = true;
              this.enemyObj[i].collisionResponse = (mesh1,mesh2) => {
-                 if(mesh2.name === "player"){
-                     const player = g_scene.getObjectByName("player");
+                 if(mesh2.name === "projectile"){
+                     const player = g_scene.getObjectByName("projectile");
                      this.checkPoints(player.position,this.enemyObj[i].position,i);
                  }
 
