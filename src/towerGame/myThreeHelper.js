@@ -1,10 +1,11 @@
 import * as THREE from "three";
 import GUI from "lil-gui";
-import {applyImpulse, applyRotation, applyVelocity, moveRigidBody} from "./myAmmoHelper";
-import {createRandomSpheres} from "./shapes/enemies/ball.js";
+import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
+import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
 import {createProjectile} from "./shapes/player/projectile.js";
+import {jumpCount} from "./towerGame.js";
 
 export let lastKey = {key: "Space"};
 
@@ -129,6 +130,8 @@ const axesHelper = new THREE.AxesHelper( 5 );
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
 
+	let maxJump = 100;
+
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
 	}
@@ -137,28 +140,34 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	player.add( axesHelper );
 	const playerSpeed = player.playerSpeed;
 	const playerJumpForce = player.playerJumpForce;
-	const playerWorldPos = new THREE.Vector3();
-	const playerWorldDir = new THREE.Vector3();
 
+	if (lastKey.key !== "jump"){
+		if (g_currentlyPressedKeys['KeyA']) {	//A
+			moveDirection.left = 1;
+		}
+		if (g_currentlyPressedKeys['KeyD']) {	//D
+			moveDirection.right = 1;
+		}
+		if (g_currentlyPressedKeys['KeyW']) {	//W
+			moveDirection.forward = 1;
+		}
+		if (g_currentlyPressedKeys['KeyS']) {	//S
+			moveDirection.back = 1;
 
-	if (g_currentlyPressedKeys['KeyA']) {	//A
-		//player.rotation.y = 0.2;
-		applyRotation(player.userData.physicsBody,{x:0,y:-2,z:0})
-	}
-	if (g_currentlyPressedKeys['KeyD']) {	//D
-		//player.rotation.y = -0.2;
-		applyRotation(player.userData.physicsBody,{x:0,y:2,z:0})
-	}
-	if (g_currentlyPressedKeys['KeyW']) {	//W
-		applyVelocity(player.userData.physicsBody,{x:0,y:0,z:10})
-	}
-	if (g_currentlyPressedKeys['KeyS']) {	//S
-		applyVelocity(player.userData.physicsBody,{x:0,y:0,z:-10})
+		}
+		if (g_currentlyPressedKeys['Space']) {	//Space
+			moveDirection.jump = 1;
+			lastKey.key = "jump";
+		}
 	}
 
-	if (g_currentlyPressedKeys['KeyQ']) {
-		g_controls.reset();
-	}
+		let moveX =  moveDirection.right - moveDirection.left;
+		let moveZ =  moveDirection.back - moveDirection.forward;
+		let moveY =  moveDirection.jump;
+
+		if (g_currentlyPressedKeys['KeyQ']) {
+			g_controls.reset();
+		}
 
 	if (g_currentlyPressedKeys['KeyM']) {	//Space
 		if (lastKey.key !== "jump"){
@@ -168,6 +177,14 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 			//lastKey.key = "nojump"
 		}
 	}
+
+	if( moveX == 0 && moveY == 0 && moveZ == 0) return;
+
+	let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
+	resultantImpulse.op_mul(playerSpeed);
+
+	let physicsBody = player.userData.physicsBody;
+	physicsBody.setLinearVelocity(resultantImpulse)
 
 	if (g_currentlyPressedKeys['KeyN']) {	//Space
 		let projectile;
