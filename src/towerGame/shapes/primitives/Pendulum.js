@@ -9,6 +9,7 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
+
 export function createHingedArm(mass = 10, color=0x00FF00, position={x:0, y:50, z:0}) {
 
     const rigidBodyArm = createArm();
@@ -31,11 +32,11 @@ export function createHingedArm(mass = 10, color=0x00FF00, position={x:0, y:50, 
 
     const lowerLimit = -Math.PI;
     const upperLimit = Math.PI;
-    const softness = 100;
+    const softness = 0;
     const biasFactor = 0;
     const relaxationFactor = 0;
     hingeConstraint.setLimit( lowerLimit, upperLimit, softness, biasFactor, relaxationFactor);
-    hingeConstraint.enableAngularMotor(true, 0, 0.5);
+    hingeConstraint.enableAngularMotor(true, 0, 0);
     g_ammoPhysicsWorld.addConstraint( hingeConstraint, false );
 
     // NB! LA STÅ!
@@ -76,13 +77,14 @@ function createArm() {
     const width=10, height=1, depth=1;
     const position={x:0, y:0, z:0}
 
+
+
     //THREE
     const mesh = new THREE.Mesh(
         new THREE.BoxGeometry(width,height,depth, 1, 1),
-        new THREE.MeshStandardMaterial({color: 0xf906e4}));
+        new THREE.MeshStandardMaterial({color: 0x000000}));
     mesh.name = 'hinge_arm';
     mesh.position.set(position.x, position.y, position.z);
-    mesh.rotation.z = 10
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     const direction = new THREE.Vector3();
@@ -96,8 +98,8 @@ function createArm() {
 
     const shape = new Ammo.btBoxShape( new Ammo.btVector3( mesh_width/2, mesh_height/2, mesh_depth/2) );
     shape.setMargin( 0.05 );
-    const rigidBody = createAmmoRigidBody(shape, mesh, 0.3, 0.0, position, mass);
-    rigidBody.setDamping(0.1, 0.5);
+    const rigidBody = createAmmoRigidBody(shape, mesh, 0, 0.0, position, mass);
+    rigidBody.setDamping(0, 0);
     rigidBody.setActivationState(4);
     mesh.userData.physicsBody = rigidBody;
 
@@ -115,7 +117,7 @@ function createArm() {
     return rigidBody;
 }
 
-function createAnchor(color=0xb846db) {
+function createAnchor(color=0x000000) {
     const radius = 1;
     const position={x:-20, y:30, z:0};
     const mass = 0;
@@ -129,7 +131,7 @@ function createAnchor(color=0xb846db) {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     mesh.collisionResponse = (mesh1) => {
-        mesh1.material.color.setHex(Math.random() * 0xffffff);
+        mesh1.material.color.setHex(Math.random() * 0x000000);
     };
     //AMMO
     const shape = new Ammo.btSphereShape(mesh.geometry.parameters.radius);
