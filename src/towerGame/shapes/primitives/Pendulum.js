@@ -1,4 +1,5 @@
 //Tok utgangspunkt i pendel fra eksempel DEL4 ammoConstraints, hingedarm.js
+// så godt som hentet i sin helhet derfra med små forandringer.
 
 import * as THREE from "three";
 import {addMeshToScene} from "../../myThreeHelper.js";
