@@ -4,15 +4,15 @@ import {createXZPlane} from "../../shapes/primitives/xzplane.js";
 import {XZPLANE_SIDELENGTH} from "../../towerGame.js";
 import {goalCube} from "../shared/goalCube.js";
 
-export async function level_1_build(scene_width, scene_length, level_height){
+export async function level_2_build(scene_width, scene_length, level_height){
 
 	// WALL SETTINGS
-	let wallTexture = "metal1.jpg";
+	let wallTexture = "metal_tread_plate1.jpg";
 	let wallAlphamapTexture = "bricks2_alphamap.jpg";
 	let wallTextureRepeat = 4;
 
 	// FLOOR SETTINGS
-	let floorTexture = "rocks.jpg"
+	let floorTexture = "bricks2.jpg"
 	let floorTextureRepeat = 10;
 
 	// GOAL POST SETTINGS
@@ -21,7 +21,7 @@ export async function level_1_build(scene_width, scene_length, level_height){
 	let goalPostHeight = 8;
 	let goalPostTexture = "checkered.jpg"
 	let goalPostTextureRepeat = 1;
-	let goalXPos = -20, goalYPos = 2, goalZPos = 10;
+	let goalXPos = 30, goalYPos = 2, goalZPos = 30;
 
 
 	// Floor

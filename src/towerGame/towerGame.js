@@ -26,6 +26,7 @@ import {createHingedArm} from "./shapes/primitives/Pendulum.js";
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
 import {level_1} from "./levels/level1/level_1.js";
+import {level_2} from "./levels/level2/level_2.js";
 
 //hud
 import {updateHud} from "./hud/hud.js";
@@ -191,6 +192,9 @@ function levelSelect(level){
 			break;
 		case "1":
 			level_1(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
+			break;
+		case "2":
+			level_2(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
 			break;
 		default:
 			return;
