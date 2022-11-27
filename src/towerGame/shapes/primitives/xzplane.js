@@ -9,7 +9,7 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export function createXZPlane(xzPlaneSideLength) {
+export function createXZPlane(xzPlaneSideLength, floorMaterial) {
 	const mass=0;
 	const position = {x: 0, y: 0, z: 0};
 	g_xzPlaneSideLength = xzPlaneSideLength;

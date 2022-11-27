@@ -10,35 +10,20 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export async function createWall_no_windows(name, width = 1, height = 1, depth = 1, position={x:0, y:0, z:0}, rotation={x:0, z:0, y:0}, opacity = 1) {
+export async function createWall_no_windows(name, width = 1, height = 1, depth = 1, position={x:0, y:0, z:0}, rotation={x:0, z:0, y:0}, opacity = 1, wallMaterialFileName = "bricks2.jpg") {
 	const mass = 0; //Merk!
 	let color=0x00A6E5;
+	let wallMaterial = wallMaterialFileName;
 
 	//*****
 	//* BasicMaterial med alphaMap (som kontrollerer gjennomsiktighet vha. en tekstur)
 	//*****
 	const loader = new THREE.TextureLoader();
-	// const bricksTexture = await loader.loadAsync('../../../assets/textures/bricks2.jpg');
-	// const alphamapTexture = await loader.loadAsync('../../../assets/textures/bricks2_alphamap.jpg');
-	// const materialBasicAlpahamap = new THREE.MeshBasicMaterial({ map:bricksTexture, color: 0xffffff, wireframe:false, side: THREE.DoubleSide });
 	let bricksTexture,alphamapTexture,materialBasicAlpahamap;
-	switch (levelNo){
-		case 0:
-			 bricksTexture = await loader.loadAsync('../../../assets/textures/bricks2.jpg');
-			 alphamapTexture = await loader.loadAsync('../../../assets/textures/bricks2_alphamap.jpg');
-			 materialBasicAlpahamap = new THREE.MeshBasicMaterial({ map:bricksTexture, color: 0xffffff, wireframe:false, side: THREE.DoubleSide });
-			break;
-		case 1:
-			 bricksTexture = await loader.loadAsync('../../../assets/textures/chocchip.png');
-			 alphamapTexture = await loader.loadAsync('../../../assets/textures/bricks2_alphamap.jpg');
-			 materialBasicAlpahamap = new THREE.MeshBasicMaterial({ map:bricksTexture, color: 0xffffff, wireframe:false, side: THREE.DoubleSide });
-			break;
-		case 2:
-			bricksTexture = await loader.loadAsync('../../../assets/textures/water.jpg');
-			alphamapTexture = await loader.loadAsync('../../../assets/textures/bricks2_alphamap.jpg');
-			materialBasicAlpahamap = new THREE.MeshBasicMaterial({ map:bricksTexture, color: 0xffffff, wireframe:false, side: THREE.DoubleSide });
-			break;
-	}
+	bricksTexture = await loader.loadAsync('../../../assets/textures/' + wallMaterial);
+	alphamapTexture = await loader.loadAsync('../../../assets/textures/bricks2_alphamap.jpg');
+	materialBasicAlpahamap = new THREE.MeshBasicMaterial({ map:bricksTexture, color: 0xffffff, wireframe:false, side: THREE.DoubleSide });
+
 	materialBasicAlpahamap.alphaMap = alphamapTexture;
 	materialBasicAlpahamap.transparent = true;
 	bricksTexture.wrapS = THREE.RepeatWrapping;
