@@ -1,23 +1,37 @@
 import * as THREE from "three";
-import {addMeshToScene, g_scene, impactSound} from "../../myThreeHelper.js";
+import {addMeshToScene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
-import {TWEEN} from "three/addons/libs/tween.module.min";
-import {score} from "../../towerGame";
 
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export function goalCube(mass = 17, color=0xF00FE0, position={x:20, y:50, z:30}) {
-	const sideLength = 0.2*mass;
+export async function goalCube(name, width = 1, height = 1, depth = 1, position={x:0, y:0, z:0}, rotation={x:0, z:0, y:0}, opacity = 1, wallMaterialFileName = "bricks2.jpg", wallMaterialAlphaFilename = "bricks2_alphamap.jpg", repeat = 5) {
+	const mass = 0; //Merk!
+	let wallMaterial = wallMaterialFileName;
+
+	//*****
+	//* BasicMaterial med alphaMap (som kontrollerer gjennomsiktighet vha. en tekstur)
+	//*****
+	const loader = new THREE.TextureLoader();
+	let bricksTexture, alphamapTexture, materialBasicAlpahamap;
+	bricksTexture = await loader.loadAsync('../../../assets/textures/' + wallMaterial);
+	alphamapTexture = await loader.loadAsync('../../../assets/textures/' + wallMaterialAlphaFilename);
+	materialBasicAlpahamap = new THREE.MeshBasicMaterial({ map:bricksTexture, color: 0xffffff, wireframe:false, side: THREE.DoubleSide });
+
+	materialBasicAlpahamap.alphaMap = alphamapTexture;
+	materialBasicAlpahamap.transparent = false;
+	bricksTexture.wrapS = THREE.RepeatWrapping;
+	bricksTexture.wrapT = THREE.RepeatWrapping;
+	bricksTexture.repeat.set(width,height)
 
 	//THREE
-	let mesh = new THREE.Mesh(
-		new THREE.BoxGeometry(sideLength,sideLength,sideLength, 1, 1),
-		new THREE.MeshStandardMaterial({color: color}));
-	mesh.name = 'cube';
-	mesh.position.set(position.x, position.y, position.z);
+	let material = new THREE.BoxGeometry(width,height,depth, 1, 1)
+	let mesh = new THREE.Mesh(material, materialBasicAlpahamap);
+	materialBasicAlpahamap.opacity = opacity;
+	mesh.name = 'wall';
+	mesh.rotation.set(rotation.x, rotation.y, rotation.z);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
 	mesh.collisionResponse = (mesh1, mesh2) => {
@@ -28,21 +42,22 @@ export function goalCube(mass = 17, color=0xF00FE0, position={x:20, y:50, z:30})
 	};
 
 	//AMMO
-	let width = mesh.geometry.parameters.width;
-	let height = mesh.geometry.parameters.height;
-	let depth = mesh.geometry.parameters.depth;
+	width = mesh.geometry.parameters.width;
+	height = mesh.geometry.parameters.height;
+	depth = mesh.geometry.parameters.depth;
+
 
 	let shape = new Ammo.btBoxShape( new Ammo.btVector3( width/2, height/2, depth/2) );
-	shape.setMargin( 0.05 );
 	let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.8, position, mass);
-
 	mesh.userData.physicsBody = rigidBody;
 
 	// Legger til physics world:
 	g_ammoPhysicsWorld.addRigidBody(
 		rigidBody,
 		COLLISION_GROUP_BOX,
-		COLLISION_GROUP_BOX | COLLISION_GROUP_SPHERE | COLLISION_GROUP_MOVEABLE | COLLISION_GROUP_PLANE
+		COLLISION_GROUP_SPHERE |
+		COLLISION_GROUP_PLANE |
+		COLLISION_GROUP_MOVEABLE
 	);
 
 	addMeshToScene(mesh);
