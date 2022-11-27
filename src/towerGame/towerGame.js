@@ -98,7 +98,6 @@ export async function main() {
 }
 
 function handleKeyUp(event) {
-	const player = g_scene.getObjectByName("player");
 	g_currentlyPressedKeys[event.code] = false;
 	lastKey = "";
 	//console.log(lastKey);
@@ -145,9 +144,7 @@ function handleKeyDown(event) {
 }
 function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
-	// createSpheres(20);
 	createCube();
-	//createPlayer();
 	createBall();
 	setTimeout(() => {
 
