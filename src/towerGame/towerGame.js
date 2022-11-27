@@ -21,6 +21,7 @@ import {createSpheres} from "./shapes/primitives/sphere.js";
 import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
 import {createBall} from "./shapes/player/player.js";
+import {createHingedArm} from "./shapes/primitives/Pendulum.js";
 
 
 //levels
@@ -147,6 +148,7 @@ function handleKeyDown(event) {
 function addAmmoSceneObjects() {
 	createCube();
 	createBall();
+	createHingedArm();
 	setTimeout(() => {
 		new Enemy(objEnemy2,2,FACE_ENEMY,5);
 		new Enemy(objEnemy,2,DIANAUSER_ENEMY,10);
