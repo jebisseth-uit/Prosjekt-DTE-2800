@@ -67,7 +67,7 @@ const randomInt=(min,max)=>{
             const position={x:x, y:this.enemyObj[i].position.y,z:z};
             const shape     = new Ammo.btBoxShape( new Ammo.btVector3(1,1,1));
             shape.setMargin( 0.05 );
-            const rigidBody = createAmmoRigidBody(shape,this.enemyObj[i], 0.2,.8,position,mass);
+            const rigidBody = createAmmoRigidBody(shape,this.enemyObj[i], 0.2,.2,position,mass);
             this.enemyObj[i].userData.physicsBody = rigidBody;
             g_ammoPhysicsWorld.addRigidBody(
                 rigidBody,
@@ -100,15 +100,15 @@ const randomInt=(min,max)=>{
      }
 
     updateEnemy(){
-        setInterval(() => {
+       // setInterval(() => {
             const player = g_scene.getObjectByName("player");
             for(let i=0;i<this.enemyObj.length;i++){
             if(!this.enemyObj[i].userData.physicsBody)
                 return;
-                let scalingFactor = 15;
+                /*let scalingFactor = 15;
                 let random = randomInt(0,10);
                 const dis = Number(player.position.distanceTo(this.enemyObj[i]));
-                if(this.count[i]>50)
+                if(dis<100)
                     random = 6;
                 this.count[i]++;
 
@@ -149,14 +149,20 @@ const randomInt=(min,max)=>{
                 const vx  = Math.sin(_ang);
                 const vz  = Math.cos(_ang);
                 let velocity = new Ammo.btVector3( vx, 0, vz )
+                let stand = randomInt(0,20);
+                if(stand>12)
+                */
+
+
+                let velocity = new Ammo.btVector3( 0, 0, 0 )
                 velocity.op_mul(this.speed);
                 let physicsBody = this.enemyObj[i].userData.physicsBody;
                 physicsBody.setLinearVelocity(velocity);
 
-                console.log(physicsBody.getLinearVelocity());
+                ///console.log(physicsBody.getLinearVelocity());
                // this.checkPoints(player.position,this.enemyObj[i].position,i);
             }
-        }, 1000);
+        //}, 3000);
     }
 
      checkPoints(a,b,i){
