@@ -25,6 +25,7 @@ import {createHingedArm} from "./shapes/primitives/Pendulum.js";
 
 //levels
 import {level_demo} from "./levels/demo/level_demo.js";
+import {level_1} from "./levels/level1/level_1.js";
 
 //hud
 import {updateHud} from "./hud/hud.js";
@@ -50,10 +51,8 @@ const stats = new Stats();
 
 export let moveDirection;
 moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0 }
-// let objEnemy,objEnemy2;
 import {FACE_ENEMY,HORSE_ENEMY,DIANAUSER_ENEMY} from "./createEnemy";
 let objEnemy,objEnemy2,objEnemy3;
-export let levelNo=0;
 //STARTER!
 //Ammojs Initialization
 Ammo().then( async function( AmmoLib ) {
@@ -83,8 +82,7 @@ export async function main() {
 	objEnemy3 = loadEnemy('../../../model/horse.glb',{x:.2,y:.2,z:.2});
 
 	// draw level
-	let levelSelection = document.getElementById( "levelSelect" ).value
-	levelSelect(levelSelection);
+	levelSelect(level);
 	// Klokke for animasjon
 	g_clock = new THREE.Clock();
 
@@ -101,7 +99,6 @@ export async function main() {
 function handleKeyUp(event) {
 	g_currentlyPressedKeys[event.code] = false;
 	lastKey = "";
-	//console.log(lastKey);
 
 	let keyCode = event.keyCode;
 	switch(keyCode){
@@ -192,7 +189,7 @@ function levelSelect(level){
 		case "Demo":
 			level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
 			break;
-		case 1:
+		case "1":
 			level_1(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
 			break;
 		default:
