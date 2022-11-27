@@ -187,6 +187,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
 	let physicsBody = player.userData.physicsBody;
 	physicsBody.setLinearVelocity(resultantImpulse)
 
+
 }
 
 export function onWindowResize() {
