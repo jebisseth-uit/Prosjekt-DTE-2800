@@ -21,7 +21,7 @@ export function createAmmoWorld(checkCollisions= true) {
 	g_ammoPhysicsWorld.setGravity(new Ammo.btVector3(0, -9.80665, 0));
 }
 
-export function createAmmoRigidBody(shape, threeMesh, restitution=0.7, friction=0.8, position={x:0, y:50, z:0}, mass=1) {
+export function createAmmoRigidBody(shape, threeMesh, restitution=0.7, friction=0.8, position={x:0, y:50, z:0}, mass=10) {
 
 	let transform = new Ammo.btTransform();
 	transform.setIdentity();
