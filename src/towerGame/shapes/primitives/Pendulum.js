@@ -87,9 +87,6 @@ function createArm() {
     mesh.position.set(position.x, position.y, position.z);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
-    const direction = new THREE.Vector3();
-    mesh.getWorldDirection(direction);  // NB! worldDIRECTION! Gir en vektor som peker mot +Z. FRA DOC: Returns a vector representing the direction of object's positive z-axis in world space.
-    //addArrowHelper(mesh, direction.normalize(), new THREE.Vector3( 0, 0, 0 ), 'worlddirection_arrow', 0xff0000, 5);
 
     //AMMO
     const mesh_width = mesh.geometry.parameters.width;    //(er her overflødig)
@@ -151,16 +148,4 @@ function createAnchor(color=0x000000) {
     rigidBody.threeMesh = mesh;
 
     return rigidBody;
-}
-
-export function pushHingedArm(mesh, direction) {
-    //if (!mesh.userData.physicsBody)
-    //    return;
-    //const rigidBody = mesh.userData.physicsBody;
-    //rigidBody.activate(true);
-    // Gir impuls ytterst på armen:s
-    const armWidth = mesh.geometry.parameters.width;
-    const relativeVector = new Ammo.btVector3(armWidth/2, 0, 0);
-    const impulseVector = new Ammo.btVector3(10*direction.x, 0, 10*direction.z);
-    rigidBody.applyImpulse(impulseVector, relativeVector);
 }
