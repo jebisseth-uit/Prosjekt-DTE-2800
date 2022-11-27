@@ -9,7 +9,7 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export async function createXZPlane(xzPlaneSideLength, floorMaterialFilename = "bricks2.jpg" ) {
+export async function createXZPlane(xzPlaneSideLength, floorMaterialFilename = "bricks2.jpg", repeat = 5 ) {
 	const mass=0;
 	const position = {x: 0, y: 0, z: 0};
 	let floorMaterial = floorMaterialFilename;
@@ -28,7 +28,7 @@ export async function createXZPlane(xzPlaneSideLength, floorMaterialFilename = "
 
 	texture.wrapS = THREE.RepeatWrapping;
 	texture.wrapT = THREE.RepeatWrapping;
-	texture.repeat.set(5,5)
+	texture.repeat.set(repeat,repeat)
 
 	geometry.rotateX( -Math.PI / 2 );
 
