@@ -45,7 +45,7 @@ export let jumpCount = {count:0}
 let g_clock;
 export let lastKey;
 const g_currentlyPressedKeys = []
-const XZPLANE_SIDELENGTH = 100;
+export const XZPLANE_SIDELENGTH = 100;
 const stats = new Stats();
 
 export let moveDirection;
@@ -145,7 +145,6 @@ function handleKeyDown(event) {
 	g_currentlyPressedKeys[event.code] = true
 }
 function addAmmoSceneObjects() {
-	createXZPlane(XZPLANE_SIDELENGTH);
 	createCube();
 	createBall();
 	setTimeout(() => {
