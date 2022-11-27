@@ -16,7 +16,7 @@ export function createHingedArm(mass = 10, color=0x00FF00, position={x:0, y:50, 
     const rigidBodyAnchor = createAnchor();
     const armLength = rigidBodyArm.threeMesh.geometry.parameters.width;
     //AMMO, hengsel: SE F.EKS: https://www.panda3d.org/manual/?title=Bullet_Constraints#Hinge_Constraint:
-    const anchorPivot = new Ammo.btVector3( 0, 0.5, 0 );
+    const anchorPivot = new Ammo.btVector3( 0, 0, 0 );
     const anchorAxis = new Ammo.btVector3(0,0,1);
     const armPivot = new Ammo.btVector3( - armLength/2, 0, 0 );
     const armAxis = new Ammo.btVector3(0,0,1);
