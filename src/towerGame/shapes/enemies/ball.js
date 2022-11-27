@@ -1,3 +1,4 @@
+//Denne filen er i stor grad basert på eksempel gitt av lærer, så redigert for våre formål
 import * as THREE from "three";
 import {addMeshToScene, g_scene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";

@@ -1,10 +1,8 @@
+//Denne filen er i stor grad basert på eksempel gitt av lærer, så redigert for våre formål
 import * as THREE from "three";
 import {addMeshToScene} from "../../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../../myAmmoHelper.js";
 
-import {levelNo} from "../../../towerGame";
-
-let isOnce=false;
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
@@ -12,7 +10,6 @@ const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
 export async function createWall_no_windows(name, width = 1, height = 1, depth = 1, position={x:0, y:0, z:0}, rotation={x:0, z:0, y:0}, opacity = 1, wallMaterialFileName = "bricks2.jpg", wallMaterialAlphaFilename = "bricks2_alphamap.jpg", repeat = 5) {
 	const mass = 0; //Merk!
-	let color=0x00A6E5;
 	let wallMaterial = wallMaterialFileName;
 
 	//*****

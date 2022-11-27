@@ -1,11 +1,11 @@
+//Denne filen er i stor grad basert på eksempel gitt av lærer, så redigert for våre formål
 import * as THREE from "three";
 import GUI from "lil-gui";
-import {applyImpulse, moveRigidBody} from "./myAmmoHelper";
+import {applyImpulse} from "./myAmmoHelper";
 import {createRandomSpheres} from "./shapes/primitives/sphere.js";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {moveDirection} from "./towerGame.js";
 import {createProjectile} from "./shapes/player/projectile.js";
-import {jumpCount} from "./towerGame.js";
 
 export let lastKey = {key: "Space"};
 
@@ -69,7 +69,7 @@ export function createThreeScene() {
 		backgroundSound.setBuffer( buffer );
 		backgroundSound.setLoop( true );
 		backgroundSound.setVolume( 0.05 );
-		//backgroundSound.play();
+		backgroundSound.play();
 	});
 
 // load a sound and set it as the local Audio object's buffer
@@ -78,8 +78,7 @@ export function createThreeScene() {
 		localSound2.setBuffer( buffer );
 		localSound2.setLoop( true );
 		localSound2.setVolume( 1 );
-		//localSound2.play();
-		//g_scene.getObjectByName('cube').add(localSound2)
+		localSound2.play();
 	});
 
 }

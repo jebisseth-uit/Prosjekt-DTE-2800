@@ -1,3 +1,4 @@
+//Denne filen er i stor grad basert på eksempel gitt av lærer, så redigert for våre formål
 import '../../style.css';
 import * as THREE from "three";
 import Stats from 'stats.js';
@@ -16,10 +17,8 @@ import {
 	updatePhysics
 } from "./myAmmoHelper.js";
 
-import {createXZPlane} from "./shapes/primitives/xzplane.js";
-import {createSpheres} from "./shapes/primitives/sphere.js";
+
 import {createCube} from "./shapes/primitives/cube.js";
-import {createPlayer} from "./shapes/player/player.js";
 import {createBall} from "./shapes/player/player.js";
 import {createHingedArm} from "./shapes/primitives/Pendulum.js";
 
@@ -86,7 +85,6 @@ export async function main() {
 	// draw level
 	let levelSelection = document.getElementById( "levelSelect" ).value
 	levelSelect(levelSelection);
-	//level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
 	// Klokke for animasjon
 	g_clock = new THREE.Clock();
 

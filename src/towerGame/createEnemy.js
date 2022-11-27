@@ -1,7 +1,8 @@
+//ligger litt funksjonalitet i denne file vi er usikre på om vi vil bruke, ligger kommetert ut.
 import * as THREE from "three";
 import {addMeshToScene,g_scene} from "./myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies,removeBody} from "./myAmmoHelper.js";
-import {score} from   '../towerGame/towerGame';
+import {score} from './towerGame';
 
 let g_xzPlaneSideLength=100;
 const COLLISION_GROUP_PLANE = 1;
@@ -171,8 +172,6 @@ const randomInt=(min,max)=>{
                 let physicsBody = this.enemyObj[i].userData.physicsBody;
                 physicsBody.setLinearVelocity(this.enemyObj[i].velocity);
 
-                ///console.log(physicsBody.getLinearVelocity());
-               // this.checkPoints(player.position,this.enemyObj[i].position,i);
             }
         }, 1000/60);
     }
