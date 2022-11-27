@@ -30,6 +30,7 @@ const randomInt=(min,max)=>{
     constructor(enemy_mesh,eneyno,enemy_type,speed){
         this.enemyObj=[];     
         this.isDie=[];
+        this.count=[];
         this.enemyType = enemy_type;
         this.speed = speed;
         this.create(enemy_mesh,eneyno);
@@ -40,6 +41,9 @@ const randomInt=(min,max)=>{
           //this.enemyObj[i] = enemy_mesh.clone();
             this.enemyObj.push(enemy_mesh.clone());
             this.isDie.length = this.enemyObj.length;
+            this.count.length = this.enemyObj.length;
+            this.count[i]=0;
+
             this.enemyObj[i].traverse((child)=>{
                  if(child.isMesh){
                      child.castShadow =true;
@@ -59,9 +63,9 @@ const randomInt=(min,max)=>{
             const x = -(g_xzPlaneSideLength/2) + Math.random() * g_xzPlaneSideLength;
             const z = -(g_xzPlaneSideLength/2) + Math.random() * g_xzPlaneSideLength;
             this.enemyObj[i].position.set(x,2,z);
-            const mass = 50;
+            const mass = 2;
             const position={x:x, y:this.enemyObj[i].position.y,z:z};
-            const shape     = new Ammo.btBoxShape( new Ammo.btVector3(2,1,2));
+            const shape     = new Ammo.btBoxShape( new Ammo.btVector3(1,1,1));
             shape.setMargin( 0.05 );
             const rigidBody = createAmmoRigidBody(shape,this.enemyObj[i], 0.2,.8,position,mass);
             this.enemyObj[i].userData.physicsBody = rigidBody;
@@ -104,8 +108,10 @@ const randomInt=(min,max)=>{
                 let scalingFactor = 15;
                 let random = randomInt(0,10);
                 const dis = Number(player.position.distanceTo(this.enemyObj[i]));
-                if(dis<150)
+                if(this.count[i]>50)
                     random = 6;
+                this.count[i]++;
+
                 let z=0,x=0;
                 switch(random){
                     case 0:
@@ -146,6 +152,8 @@ const randomInt=(min,max)=>{
                 velocity.op_mul(this.speed);
                 let physicsBody = this.enemyObj[i].userData.physicsBody;
                 physicsBody.setLinearVelocity(velocity);
+
+                console.log(physicsBody.getLinearVelocity());
                // this.checkPoints(player.position,this.enemyObj[i].position,i);
             }
         }, 1000);
