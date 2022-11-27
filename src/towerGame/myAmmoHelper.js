@@ -1,3 +1,4 @@
+//Denne filen er i stor grad basert på eksempel gitt av lærer, så redigert for våre formål
 let g_checkCollisions = false;
 let g_transform;
 

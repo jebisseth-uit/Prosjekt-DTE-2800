@@ -1,3 +1,4 @@
+//Denne filen er i stor grad basert på eksempel gitt av lærer, så redigert for våre formål
 import * as THREE from "three";
 import {addMeshToScene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
@@ -17,6 +18,7 @@ export function createPlayer(color=0x00A6E5, position={x:-10, y:0, z:-30}) {
 	let mesh = new THREE.Mesh(
 		new THREE.BoxGeometry(sideLength,sideLength,sideLength, 1, 1),
 		new THREE.MeshStandardMaterial({color: color}));
+	//noe her vi lurte på å bruke til ekstra powerup funksjonalitet, kommentert ut.
 	//mesh.name = 'player';
 	//mesh.playerSpeed = 10;
 	//mesh.playerJumpForce = 120;

@@ -1,18 +1,7 @@
+//Denne filen er i stor grad basert på eksempel gitt av lærer, så redigert for våre formål
 import * as THREE from "three";
 import {addMeshToScene, g_scene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
-import {impactSound} from "../../myThreeHelper.js";
-import {TWEEN} from "three/addons/libs/tween.module.min.js";
-import {score} from "../../towerGame";
-
-
-//const audioLoader2 = new THREE.AudioLoader();
-//audioLoader2.load( "../../../../assets/Sound/SoundEffects/zombie-15.wav", function( buffer ) {
-//	impactSound.setBuffer( buffer );
-//	impactSound.setLoop( false );
-//	impactSound.setVolume( 1 );
-//	impactSound.play();
-//});
 
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
@@ -30,10 +19,6 @@ export function createProjectile(mass = 1, position={x:0, y:0, z:0}, radius = 0.
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
 	mesh.collisionResponse = (mesh1, mesh2) => {
-		// mesh1 = this object, mesh2 = colliding object
-		//setTimeout(function(){
-		//	g_scene.remove(mesh1);
-		//},1000);
 		g_scene.remove(mesh1)
 
 	};

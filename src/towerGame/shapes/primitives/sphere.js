@@ -1,3 +1,4 @@
+//Denne filen er i stor grad basert på eksempel gitt av lærer, så redigert for våre formål
 import * as THREE from "three";
 import {addMeshToScene, g_scene} from "../../myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
@@ -10,7 +11,7 @@ const audioLoader2 = new THREE.AudioLoader();
 audioLoader2.load( "../../../../assets/Sound/SoundEffects/zombie-15.wav", function( buffer ) {
 	impactSound.setBuffer( buffer );
 	impactSound.setLoop( false );
-	impactSound.setVolume( 1 );
+	impactSound.setVolume( 3 );
 	impactSound.play();
 });
 
@@ -38,7 +39,6 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 	mesh.collisionResponse = (mesh1, mesh2) => {
 		// mesh1 = this object, mesh2 = colliding object
 		if (mesh2.name === "projectile"){
-			//mesh1.material.color.setHex(Math.random() * 0xffffff);
 			impactSound.play();
 			new TWEEN.Tween( mesh1.material ).to( { opacity: 0 }, 1000 ).start();
 			setTimeout(function(){
