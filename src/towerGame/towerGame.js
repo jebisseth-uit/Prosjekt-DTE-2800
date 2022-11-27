@@ -35,7 +35,7 @@ import {loadEnemy} from './MyEnemy';
 import Enemy from './createEnemy';
 
 //Globale variabler:
-export let level = "Demo";
+export let level = document.getElementById( "levelSelect" ).value;
 
 export let score = {total: 0};
 export let time = "1:34";
@@ -45,7 +45,7 @@ export let jumpCount = {count:0}
 let g_clock;
 export let lastKey;
 const g_currentlyPressedKeys = []
-const XZPLANE_SIDELENGTH = 100;
+export const XZPLANE_SIDELENGTH = 100;
 const stats = new Stats();
 
 export let moveDirection;
@@ -83,7 +83,9 @@ export async function main() {
 	objEnemy3 = loadEnemy('../../../model/horse.glb',{x:.2,y:.2,z:.2});
 
 	// draw level
-	level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
+	let levelSelection = document.getElementById( "levelSelect" ).value
+	levelSelect(levelSelection);
+	//level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
 	// Klokke for animasjon
 	g_clock = new THREE.Clock();
 
@@ -143,7 +145,6 @@ function handleKeyDown(event) {
 	g_currentlyPressedKeys[event.code] = true
 }
 function addAmmoSceneObjects() {
-	createXZPlane(XZPLANE_SIDELENGTH);
 	createCube();
 	createBall();
 	setTimeout(() => {
@@ -184,4 +185,17 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld, loader) {
 
 
 	stats.end();
+}
+
+function levelSelect(level){
+	switch (level){
+		case "Demo":
+			level_demo(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
+			break;
+		case 1:
+			level_1(XZPLANE_SIDELENGTH, XZPLANE_SIDELENGTH);
+			break;
+		default:
+			return;
+	}
 }

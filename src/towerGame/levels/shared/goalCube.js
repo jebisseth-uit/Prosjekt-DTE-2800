@@ -1,18 +1,14 @@
 import * as THREE from "three";
-import {addMeshToScene} from "../../../myThreeHelper.js";
-import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../../myAmmoHelper.js";
+import {addMeshToScene} from "../../myThreeHelper.js";
+import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../../myAmmoHelper.js";
 
-import {levelNo} from "../../../towerGame";
-
-let isOnce=false;
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVEABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export async function createWall_no_windows(name, width = 1, height = 1, depth = 1, position={x:0, y:0, z:0}, rotation={x:0, z:0, y:0}, opacity = 1, wallMaterialFileName = "bricks2.jpg", wallMaterialAlphaFilename = "bricks2_alphamap.jpg", repeat = 5) {
+export async function goalCube(name, width = 1, height = 1, depth = 1, position={x:0, y:0, z:0}, rotation={x:0, z:0, y:0}, opacity = 1, wallMaterialFileName = "bricks2.jpg", wallMaterialAlphaFilename = "bricks2_alphamap.jpg", repeat = 5) {
 	const mass = 0; //Merk!
-	let color=0x00A6E5;
 	let wallMaterial = wallMaterialFileName;
 
 	//*****
@@ -25,10 +21,10 @@ export async function createWall_no_windows(name, width = 1, height = 1, depth =
 	materialBasicAlpahamap = new THREE.MeshBasicMaterial({ map:bricksTexture, color: 0xffffff, wireframe:false, side: THREE.DoubleSide });
 
 	materialBasicAlpahamap.alphaMap = alphamapTexture;
-	materialBasicAlpahamap.transparent = true;
+	materialBasicAlpahamap.transparent = false;
 	bricksTexture.wrapS = THREE.RepeatWrapping;
 	bricksTexture.wrapT = THREE.RepeatWrapping;
-	bricksTexture.repeat.set(repeat,repeat)
+	bricksTexture.repeat.set(width,height)
 
 	//THREE
 	let material = new THREE.BoxGeometry(width,height,depth, 1, 1)
@@ -38,6 +34,12 @@ export async function createWall_no_windows(name, width = 1, height = 1, depth =
 	mesh.rotation.set(rotation.x, rotation.y, rotation.z);
 	mesh.castShadow = true;
 	mesh.receiveShadow = true;
+	mesh.collisionResponse = (mesh1, mesh2) => {
+		// mesh1 = this object, mesh2 = colliding object
+		if (mesh2.name === "player"){
+			levelFinished();
+		}
+	};
 
 	//AMMO
 	width = mesh.geometry.parameters.width;
@@ -61,4 +63,22 @@ export async function createWall_no_windows(name, width = 1, height = 1, depth =
 	addMeshToScene(mesh);
 	g_rigidBodies.push(mesh);
 	rigidBody.threeMesh = mesh;
+}
+
+function levelFinished(){
+	let levelFinishedString =
+		'<div class="position-relative">' +
+		'<div class="position-absolute top-50 start-50">' +
+		'<div class="d-flex flex-row" style = "background-color: rgba(153,204,255,0.4)">' +
+		'<div class="p-2 ti-layout-align-middle">' +
+		'<div class="container">' +
+		'<h1>Finished!</h1>' +
+		'<h3><a href="../home/home.html">Go to level selection</a></h3>' +
+		'</div>' +
+		'</div>' +
+		'</div>' +
+		'</div>' +
+		'</div>'
+
+	document.getElementById("levelFinished").innerHTML=levelFinishedString;
 }
