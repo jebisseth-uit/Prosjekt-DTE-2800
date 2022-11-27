@@ -9,21 +9,31 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVABLE = 4;
 const COLLISION_GROUP_BOX = 8;       //..osv. legg til etter behov.
 
-export function createXZPlane(xzPlaneSideLength) {
+export async function createXZPlane(xzPlaneSideLength, floorMaterialFilename = "bricks2.jpg", repeat = 5 ) {
 	const mass=0;
 	const position = {x: 0, y: 0, z: 0};
+	let floorMaterial = floorMaterialFilename;
 	g_xzPlaneSideLength = xzPlaneSideLength;
+
+	//Texture
+	const loader = new THREE.TextureLoader();
+	const texture = await loader.loadAsync('../../assets/textures/' + floorMaterial);
+
 	// THREE:
-	let geometry = new THREE.PlaneGeometry( g_xzPlaneSideLength, g_xzPlaneSideLength, 1, 1 );
-	geometry.rotateX( -Math.PI / 2 );
-	let material = new THREE.MeshStandardMaterial( { color: 0xA8A8F8, side: THREE.DoubleSide } );
-	let mesh = new THREE.Mesh(geometry, material);
+	let geometry = new THREE.PlaneGeometry( g_xzPlaneSideLength, g_xzPlaneSideLength, 1, 1);
+	let mPlane = new THREE.MeshPhongMaterial({map: texture});
+	let mesh = new THREE.Mesh(geometry, mPlane);
 	mesh.receiveShadow = true;
 	mesh.name = 'xzplane';
 
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set(repeat,repeat)
+
+	geometry.rotateX( -Math.PI / 2 );
+
 	// AMMO:
 	let shape = new Ammo.btBoxShape(new Ammo.btVector3(g_xzPlaneSideLength/2, 0, g_xzPlaneSideLength/2));
-	//shape.setMargin( 0.05 );
 	let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.8, position, mass);
 
 	mesh.userData.physicsBody = rigidBody;
