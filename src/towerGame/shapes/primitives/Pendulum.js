@@ -29,11 +29,11 @@ export function createHingedArm(mass = 10, color=0x00FF00, position={x:0, y:50, 
         false
     );
 
-    const lowerLimit = -Math.PI/2;
-    const upperLimit = Math.PI/2;
-    const softness = 0.9;
-    const biasFactor = 0.3;
-    const relaxationFactor = 1.0;
+    const lowerLimit = -Math.PI;
+    const upperLimit = Math.PI;
+    const softness = 100;
+    const biasFactor = 0;
+    const relaxationFactor = 0;
     hingeConstraint.setLimit( lowerLimit, upperLimit, softness, biasFactor, relaxationFactor);
     hingeConstraint.enableAngularMotor(true, 0, 0.5);
     g_ammoPhysicsWorld.addConstraint( hingeConstraint, false );
@@ -82,6 +82,7 @@ function createArm() {
         new THREE.MeshStandardMaterial({color: 0xf906e4}));
     mesh.name = 'hinge_arm';
     mesh.position.set(position.x, position.y, position.z);
+    mesh.rotation.z = 10
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     const direction = new THREE.Vector3();
