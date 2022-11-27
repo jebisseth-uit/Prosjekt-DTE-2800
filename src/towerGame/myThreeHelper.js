@@ -79,7 +79,7 @@ export function createThreeScene() {
 		localSound2.setLoop( true );
 		localSound2.setVolume( 1 );
 		//localSound2.play();
-		g_scene.getObjectByName('cube').add(localSound2)
+		//g_scene.getObjectByName('cube').add(localSound2)
 	});
 
 }
