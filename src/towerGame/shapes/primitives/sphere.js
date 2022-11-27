@@ -50,8 +50,8 @@ export function createSphere(mass = 10, color=0x00FF00, position={x:0, y:50, z:0
 				mesh.hit = true;
 			}
 		}
-
 	};
+
 	//AMMO
 	let shape = new Ammo.btSphereShape(mesh.geometry.parameters.radius);
 	shape.setMargin( 0.05 );
