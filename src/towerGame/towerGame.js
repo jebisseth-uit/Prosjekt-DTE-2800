@@ -21,6 +21,7 @@ import {createSpheres} from "./shapes/primitives/sphere.js";
 import {createCube} from "./shapes/primitives/cube.js";
 import {createPlayer} from "./shapes/player/player.js";
 import {createBall} from "./shapes/player/player.js";
+import {createHingedArm} from "./shapes/primitives/Pendulum";
 
 
 //levels
@@ -146,6 +147,7 @@ function addAmmoSceneObjects() {
 	createXZPlane(XZPLANE_SIDELENGTH);
 	createCube();
 	createBall();
+	createHingedArm();
 	setTimeout(() => {
 
 
