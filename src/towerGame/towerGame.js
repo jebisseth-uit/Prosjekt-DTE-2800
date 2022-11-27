@@ -147,12 +147,9 @@ function addAmmoSceneObjects() {
 	createCube();
 	createBall();
 	setTimeout(() => {
-
-
-		const faceEnemy  = new Enemy(objEnemy2,4,FACE_ENEMY,5);
-		const dinusaur = new Enemy(objEnemy,4,DIANAUSER_ENEMY,10);
-		const horseEnemy = new Enemy(objEnemy3,4,HORSE_ENEMY,7);
-
+		new Enemy(objEnemy2,2,FACE_ENEMY,5);
+		new Enemy(objEnemy,2,DIANAUSER_ENEMY,10);
+		new Enemy(objEnemy3,2,HORSE_ENEMY,7);
 	}, 2000);
 }
 

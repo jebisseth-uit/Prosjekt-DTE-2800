@@ -9,7 +9,12 @@ const loadEnemy = (path,scal)=>{
            const mesh = gltf;
             mesh.scene.position.set(0,0,0);
             mesh.scene.scale.set(scal.x,scal.y,scal.z);
-            //enemyMesh.add(mesh.scene);
+             //enemyMesh.add(mesh.scene);
+             const geometry = new THREE.BoxGeometry( 2, 1, 2 );
+             const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+             const cube = new THREE.Mesh( geometry, material );
+            cube.visible=false
+             obj.add( cube );
              obj.add(mesh.scene);
              return obj;
          }, undefined, function ( error ) {

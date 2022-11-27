@@ -1,10 +1,11 @@
 import * as THREE from "three";
 import {addMeshToScene,g_scene} from "./myThreeHelper.js";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies,removeBody} from "./myAmmoHelper.js";
+import {score} from   '../towerGame/towerGame';
+
 let g_xzPlaneSideLength=100;
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
-const COLLISION_GROUP_MOVEABLE = 4;
 const COLLISION_GROUP_BOX = 8;
 
 export const FACE_ENEMY=0,HORSE_ENEMY=1,DIANAUSER_ENEMY=3;
@@ -26,10 +27,11 @@ const randomInt=(min,max)=>{
   }
   const enemat = new THREE.MeshStandardMaterial("enemat");
  export default class Enemy{
-    constructor(enemy_mesh,eneyno,enemy_type){
+    constructor(enemy_mesh,eneyno,enemy_type,speed){
         this.enemyObj=[];     
         this.isDie=[];
         this.enemyType = enemy_type;
+        this.speed = speed;
         this.create(enemy_mesh,eneyno);
     }
 
@@ -40,6 +42,7 @@ const randomInt=(min,max)=>{
             this.isDie.length = this.enemyObj.length;
             this.enemyObj[i].traverse((child)=>{
                  if(child.isMesh){
+                     child.castShadow =true;
                      switch (this.enemyType){
                          case FACE_ENEMY:
                              const mat = enemat.clone("ene_mat");
@@ -56,16 +59,18 @@ const randomInt=(min,max)=>{
             const x = -(g_xzPlaneSideLength/2) + Math.random() * g_xzPlaneSideLength;
             const z = -(g_xzPlaneSideLength/2) + Math.random() * g_xzPlaneSideLength;
             this.enemyObj[i].position.set(x,2,z);
-            const mass = 10;
+            const mass = 50;
             const position={x:x, y:this.enemyObj[i].position.y,z:z};
-            const shape     = new Ammo.btBoxShape( new Ammo.btVector3(1.25,2.5,1.25));
+            const shape     = new Ammo.btBoxShape( new Ammo.btVector3(2,1,2));
             shape.setMargin( 0.05 );
-            const rigidBody = createAmmoRigidBody(shape,this.enemyObj[i], 0.2,.2,position,mass);
+            const rigidBody = createAmmoRigidBody(shape,this.enemyObj[i], 0.2,.8,position,mass);
             this.enemyObj[i].userData.physicsBody = rigidBody;
             g_ammoPhysicsWorld.addRigidBody(
                 rigidBody,
-                COLLISION_GROUP_BOX,
-                COLLISION_GROUP_BOX | COLLISION_GROUP_SPHERE | COLLISION_GROUP_MOVEABLE | COLLISION_GROUP_PLANE
+                COLLISION_GROUP_SPHERE,
+                COLLISION_GROUP_BOX|
+                COLLISION_GROUP_SPHERE |
+                COLLISION_GROUP_PLANE
             );
             g_rigidBodies.push(this.enemyObj[i]);
             rigidBody.threeMesh = this.enemyObj[i];
@@ -96,39 +101,56 @@ const randomInt=(min,max)=>{
             for(let i=0;i<this.enemyObj.length;i++){
             if(!this.enemyObj[i].userData.physicsBody)
                 return;
-                let scalingFactor = 10;
-                let random = randomInt(0,3);
+                let scalingFactor = 15;
+                let random = randomInt(0,10);
                 const dis = Number(player.position.distanceTo(this.enemyObj[i]));
                 if(dis<150)
-                    random = 3;
+                    random = 6;
                 let z=0,x=0;
-                    switch(random){
+                switch(random){
                     case 0:
-                        z = randomInt(10,40);
-                        x = randomInt(-40,-10);
+                        x = randomInt(-40,-30);
+                        z = randomInt(-40,-30);
                         break;
                     case 1:
-                        x = randomInt(10,40);
-                        z = randomInt(-40,-10);
+                        x = randomInt(-30,-20);
+                        z = randomInt(-30,-20);
+                        break;
+                    case 2:
+                        x = randomInt(-20,-10);
+                        z = randomInt(-20,-10);
+                        break;
+                    case 3:
+                        x = randomInt(30,40);
+                        z = randomInt(30,40);
+                        break;
+                    case 4:
+                        x = randomInt(20,30);
+                        z = randomInt(20,30);
+                        break;
+                    case 5:
+                        x = randomInt(10,20);
+                        z = randomInt(10,20);
                         break;
                     default:
                         x = player.position.x;
                         z = player.position.z;
-                        break;   
-                    }   
+                        break;
+                }
                 let aa   = z - this.enemyObj[i].position.z;
                 let bb   = x - this.enemyObj[i].position.x;
                 let _ang = GetAngle(aa,bb);
-                const vx  =  Math.sin(_ang);
-                const vz  =  Math.cos(_ang);
+                const vx  = Math.sin(_ang);
+                const vz  = Math.cos(_ang);
                 let velocity = new Ammo.btVector3( vx, 0, vz )
-                velocity.op_mul(scalingFactor);
+                velocity.op_mul(this.speed);
                 let physicsBody = this.enemyObj[i].userData.physicsBody;
                 physicsBody.setLinearVelocity(velocity);
                // this.checkPoints(player.position,this.enemyObj[i].position,i);
             }
-        }, 2000);
+        }, 1000);
     }
+
      checkPoints(a,b,i){
          let d = Number(a.distanceTo( b ));
          if(d<=7 && !this.isDie[i]){
@@ -142,6 +164,7 @@ const randomInt=(min,max)=>{
              }
              points++;
              document.getElementById("gamescore").textContent = "Score: "+points;
+             score.total = points;
              const newScores = JSON.parse(localStorage.getItem("scores") || "[]");
              if (currentScoreIndex === -1) {
                  currentScoreIndex = newScores.length;
