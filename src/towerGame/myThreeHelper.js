@@ -99,7 +99,7 @@ export function addLights() {
 	directionalLight.position.set(0, 105, 0);
 	// Viser lyskilden:
 	const directionalLightHelper = new THREE.DirectionalLightHelper( directionalLight, 10, 0xff0000);
-	directionalLightHelper.visible = true;
+	directionalLightHelper.visible = false;
 	g_scene.add(directionalLightHelper);
 	directionalLight.castShadow = true;     //Merk!
 	directionalLight.shadow.mapSize.width = 1024;
@@ -113,7 +113,7 @@ export function addLights() {
 	g_scene.add(directionalLight);
 	// Viser lyskildekamera (hva lyskilden "ser")
 	const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
-	directionalLightCameraHelper.visible = true;
+	directionalLightCameraHelper.visible = false;
 
 	g_scene.add(directionalLightCameraHelper);
 
@@ -126,8 +126,6 @@ export function addLights() {
 
 //Sjekker tastaturet:
 export function handleKeys(delta, g_currentlyPressedKeys) {
-
-	let maxJump = 100;
 
 	if (g_currentlyPressedKeys['KeyH']) {	//H
 		createRandomSpheres(200);
